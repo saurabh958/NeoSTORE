@@ -55,6 +55,7 @@ public class Login extends AppCompatActivity
                     {
                         usern.requestFocus();
                         usern.setError("Please Enter username");
+                        return;
 
                     }
                     else if (pass.getText().toString().isEmpty())
