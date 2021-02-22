@@ -36,6 +36,7 @@ public class Register extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
         getSupportActionBar().setTitle("Register");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         name=findViewById(R.id.firstname);
         lname=findViewById(R.id.lastname);
@@ -81,10 +82,13 @@ public class Register extends AppCompatActivity
 
 
 
-                if(name.getText().toString().isEmpty()||lname.getText().toString().isEmpty()||email.getText().toString()
-                .isEmpty()||pass.getText().toString().isEmpty()||cpass.getText().toString().isEmpty()||
-                mob.getText().toString().isEmpty()||!name.getText().toString().matches("[a-zA-Z ]+")|| !lname.getText().toString().matches("[a-zA-Z ]+")||
-                        mob.length()<10 || !email.getText().toString().matches(emailPattern))
+                if(name.getText().toString().isEmpty()||lname.getText().toString().isEmpty()||
+                        email.getText().toString().isEmpty()||pass.getText().toString().isEmpty()||
+                        cpass.getText().toString().isEmpty()|| mob.getText().toString().isEmpty()||
+                        !name.getText().toString().matches("[a-zA-Z ]+")||
+                        !lname.getText().toString().matches("[a-zA-Z ]+")||
+                        mob.length()<10 || !email.getText().toString().matches(emailPattern) ||
+                        !cpass.getText().toString().matches(pass.getText().toString()))
                 {
                     if(name.getText().toString().isEmpty())
                     {
@@ -154,6 +158,11 @@ public class Register extends AppCompatActivity
                         cpass.requestFocus();
                         cpass.setError("Enter Confirm Password");
                     }
+                    if(!cpass.getText().toString().matches(pass.getText().toString()))
+                    {
+                        cpass.requestFocus();
+                        cpass.setError("Please Enter Same Password as Above");
+                    }
                 }
                 else
                 {
@@ -187,7 +196,7 @@ public class Register extends AppCompatActivity
                             if(!response.isSuccessful())
                             {
 
-                                System.out.println("code is"+response.code());
+                                System.out.println("---"+response.code()+response.message());
 
                             }
 
@@ -202,5 +211,10 @@ public class Register extends AppCompatActivity
                 }
             }
         });
+    }
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
     }
 }
