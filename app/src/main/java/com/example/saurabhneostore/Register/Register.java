@@ -1,5 +1,4 @@
 package com.example.saurabhneostore.Register;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
@@ -11,7 +10,12 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.saurabhneostore.Login.Apisuccess;
 import com.example.saurabhneostore.R;
+
+import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -66,14 +70,14 @@ public class Register extends AppCompatActivity
                         if(maler.isChecked())
                         {
                             inv1.setVisibility(View.INVISIBLE);
-                            gendr=maler.getText().toString();
+                            gendr=maler.getText().toString().substring(0,1);
 
 
                         }
                         else if(femaler.isChecked())
                         {
                             inv1.setVisibility(View.INVISIBLE);
-                            gendr=femaler.getText().toString();
+                            gendr=femaler.getText().toString().substring(0,1);
                         }
 
                     }
@@ -174,11 +178,12 @@ public class Register extends AppCompatActivity
                     String ed5=cpass.getText().toString();
                     if(maler.isChecked())
                     {
-                        gendr=maler.getText().toString();
+                        gendr=maler.getText().toString().substring(0,1);
+
                     }
                     else if(femaler.isChecked())
                     {
-                        gendr=femaler.getText().toString();
+                        gendr=femaler.getText().toString().substring(0,1);
                     }
                     System.out.println("gender is"+gendr+"phn is"+phn);
                     Retrofit retrofit=new Retrofit.Builder()
@@ -187,25 +192,34 @@ public class Register extends AppCompatActivity
                             .build();
 
                     jsonPlaceHolderApi=retrofit.create(JsonPlaceHolderApi.class);
-                    RegisterModel registerModel=new RegisterModel(ed1,ed2,ed3,ed4,ed5,gendr,phn);
-                    Call<RegisterModel> call=jsonPlaceHolderApi.createdata(registerModel);
-                    call.enqueue(new Callback<RegisterModel>() {
+                    //RegisterModel registerModel=new RegisterModel(ed1,ed2,ed3,ed4,ed5,gendr,phn);
+
+                    Call<Apisuccess> call=jsonPlaceHolderApi.createdata(ed1,ed2,ed3,ed4,ed5,gendr,phn);
+                    call.enqueue(new Callback<Apisuccess>() {
                         @Override
-                        public void onResponse(Call<RegisterModel> call, Response<RegisterModel> response)
+                        public void onResponse(Call<Apisuccess> call, Response<Apisuccess> response)
                         {
-                            if(!response.isSuccessful())
-                            {
+                            if(response.isSuccessful()){
 
-                                System.out.println("---"+response.code()+response.message());
-
+                                Toast.makeText(Register.this, response.body().getMessage(), Toast.LENGTH_LONG).show();
+                            } else {
+                                try {
+                                    JSONObject jObjError = new JSONObject(response.errorBody().string());
+                                    Toast.makeText(
+                                            Register.this,
+                                            jObjError.getString("user_msg"),
+                                            Toast.LENGTH_LONG).show();
+                                } catch (Exception e) {
+                                    Toast.makeText(Register.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                }
                             }
 
                         }
                         @Override
-                        public void onFailure(Call<RegisterModel> call, Throwable t)
+                        public void onFailure(Call<Apisuccess> call, Throwable t)
                         {
                             Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_LONG).show();
-
+                            System.out.println("-----"+t.getMessage());
                         }
                     });
                 }
