@@ -13,6 +13,7 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.SaurabhNeoSTORE">
+        <activity android:name=".homepage.Homepage"/>
         <activity android:name=".Register.Register"/>
         <activity android:name=".forgetpassword.Forget"/>
         <activity android:name=".Login.Login">

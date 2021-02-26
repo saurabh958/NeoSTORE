@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
+    android:orientation="vertical"
+    android:background="#000"
+    android:gravity="bottom">
+
+    <ImageView
+        android:layout_width="95dp"
+        android:layout_height="95dp"
+        android:layout_marginLeft="95dp"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/imageicon"
+        android:background="@drawable/circle">
+
+    </ImageView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kinjal Jain"
+        android:textSize="26sp"
+        android:textColor="@color/white"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="85dp">
+
+    </TextView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="kinjal.jain@wwindia.com"
+        android:textColor="@color/white"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="70dp"
+        android:textSize="14sp">
+
+    </TextView>
+
+
+
+
+</LinearLayout>

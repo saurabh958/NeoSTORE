@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -34,13 +35,29 @@ public class Register extends AppCompatActivity
     TextView inv1;
     JsonPlaceHolderApi jsonPlaceHolderApi;
     String gendr;
+    ImageButton imageButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
-        getSupportActionBar().setTitle("Register");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        Toolbar toolbar=findViewById(R.id.toolbar);
+//
+//        setSupportActionBar(toolbar);
+//        ActionBar actionBar=getSupportActionBar();
+//        actionBar.setHomeAsUpIndicator(R.drawable.back);
+//        actionBar.setDisplayHomeAsUpEnabled(true);
+//        actionBar.setTitle("Register");
+
+        imageButton=findViewById(R.id.backbutton);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Register.super.onBackPressed();
+            }
+        });
+
 
         name=findViewById(R.id.firstname);
         lname=findViewById(R.id.lastname);

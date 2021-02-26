@@ -2,8 +2,11 @@ package com.example.saurabhneostore.forgetpassword;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,14 +29,30 @@ public class Forget extends AppCompatActivity
     Button submit;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     JsonApi forgetapi;
+    ImageButton imageButton;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.forgetpass);
-        getSupportActionBar().setTitle("Forget Password");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+//        Toolbar toolbar=findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setTitle("Forget Password");
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+//        imageButton=findViewById(R.id.backbutton);
+//        imageButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Forget.super.onBackPressed();
+//            }
+//        });
 
         ed1=findViewById(R.id.emailid);
         submit=findViewById(R.id.Submit);

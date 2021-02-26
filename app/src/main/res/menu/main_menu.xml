@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/mycart"
+            android:title="My Cart"
+            android:icon="@drawable/shopping_cart"/>
+
+        <item
+            android:id="@+id/tables"
+            android:title="Tables"
+            android:icon="@drawable/ic__905821"/>
+
+        <item
+            android:id="@+id/sofas"
+            android:title="Sofas"
+            android:icon="@drawable/sofa_24"/>
+
+        <item
+            android:id="@+id/myaccount"
+            android:title="My Account"
+            android:icon="@drawable/ic_baseline_person_24"/>
+
+    </group>
+
+
+
+</menu>

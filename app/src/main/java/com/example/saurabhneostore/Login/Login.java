@@ -3,6 +3,8 @@ package com.example.saurabhneostore.Login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -35,8 +37,10 @@ public class Login extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.login_neo);
-        getSupportActionBar().setTitle("Login");
+        //getSupportActionBar().setTitle("Login");
 
         flt1=findViewById(R.id.floatng);
         login=findViewById(R.id.login);
@@ -89,6 +93,7 @@ public class Login extends AppCompatActivity
                             if(response.isSuccessful()){
 
                                 Toast.makeText(Login.this, response.body().getMessage(), Toast.LENGTH_LONG).show();
+                                //startActivity(new Intent(Login.this, Homepage.class));
                             } else {
                                 try {
                                     JSONObject jObjError = new JSONObject(response.errorBody().string());
