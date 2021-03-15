@@ -118,7 +118,7 @@
         android:drawableLeft="@drawable/ic_baseline_email_24"
         android:ems="10"
         android:hint="Email"
-        android:inputType="textWebEmailAddress"
+        android:inputType="textEmailAddress"
         android:paddingLeft="10dp"
         android:textColorHint="#ffffff"
         app:layout_constraintEnd_toEndOf="@+id/lastname"

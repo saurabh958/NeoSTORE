@@ -1,43 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="250dp"
+    android:layout_height="300dp"
     android:orientation="vertical"
-    android:background="#000"
-    android:gravity="bottom">
+    android:background="#1C1A1A"
+    android:gravity="bottom|center"
+    android:padding="20dp">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="95dp"
         android:layout_height="95dp"
-        android:layout_marginLeft="95dp"
-        android:layout_marginTop="40dp"
         android:src="@drawable/imageicon"
-        android:background="@drawable/circle">
+        android:id="@+id/image1"
+        app:civ_border_width="2dp"
+        app:civ_border_color="@color/white">
 
-    </ImageView>
+    </de.hdodenhof.circleimageview.CircleImageView>
+
+<!--    <ImageView-->
+<!--        android:layout_width="95dp"-->
+<!--        android:layout_height="95dp"-->
+<!--        android:layout_marginLeft="95dp"-->
+<!--        android:layout_marginTop="40dp"-->
+<!--        android:src="@drawable/imageicon"-->
+<!--        android:background="@drawable/circle">-->
+
+<!--    </ImageView>-->
     <TextView
+        android:id="@+id/currentname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Kinjal Jain"
-        android:textSize="26sp"
+        android:textSize="20sp"
+
         android:textColor="@color/white"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="85dp">
+        >
 
     </TextView>
     <TextView
+        android:id="@+id/currentemail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="kinjal.jain@wwindia.com"
         android:textColor="@color/white"
         android:layout_marginBottom="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="70dp"
         android:textSize="14sp">
 
     </TextView>
-
-
-
 
 </LinearLayout>

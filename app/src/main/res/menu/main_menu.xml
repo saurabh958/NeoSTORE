@@ -4,7 +4,8 @@
         <item
             android:id="@+id/mycart"
             android:title="My Cart"
-            android:icon="@drawable/shopping_cart"/>
+            android:icon="@drawable/shopping_cart"
+            />
 
         <item
             android:id="@+id/tables"
@@ -17,9 +18,34 @@
             android:icon="@drawable/sofa_24"/>
 
         <item
+            android:id="@+id/chairs"
+            android:title="Chairs"
+            android:icon="@drawable/ic_baseline_chair"/>
+
+        <item
+            android:id="@+id/cupboards"
+            android:title="Cupboards"
+            android:icon="@drawable/cupboard"/>
+
+        <item
             android:id="@+id/myaccount"
             android:title="My Account"
             android:icon="@drawable/ic_baseline_person_24"/>
+
+        <item
+            android:id="@+id/storelocator"
+            android:title="Store Locator"
+            android:icon="@drawable/share_location"/>
+
+        <item
+            android:id="@+id/myorders"
+            android:title="My Orders"
+            android:icon="@drawable/myorder"/>
+
+        <item
+            android:id="@+id/logout"
+            android:title="Logout"
+            android:icon="@drawable/logout"/>
 
     </group>
 

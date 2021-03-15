@@ -1,9 +1,9 @@
-package com.example.saurabhneostore.Login;
+package com.example.saurabhneostore.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Data {
+public class DataLogin {
 
     @SerializedName("id")
     @Expose
@@ -54,7 +54,7 @@ public class Data {
     /**
      * No args constructor for use in serialization
      */
-    public Data() {
+    public DataLogin() {
     }
 
     /**
@@ -74,7 +74,7 @@ public class Data {
      * @param email
      * @param username
      */
-    public Data(String id, String roleId, String firstName, String lastName, String email, String username, Object profilePic, Object countryId, String gender, String phoneNo, Object dob, Boolean isActive, String created, String modified, String accessToken) {
+    public DataLogin(String id, String roleId, String firstName, String lastName, String email, String username, Object profilePic, Object countryId, String gender, String phoneNo, Object dob, Boolean isActive, String created, String modified, String accessToken) {
         super();
         this.id = id;
         this.roleId = roleId;
@@ -95,10 +95,12 @@ public class Data {
 
     public String getId() {
         return id;
+
     }
 
     public void setId(String id) {
         this.id = id;
+
     }
 
     public String getRoleId() {
@@ -213,3 +215,4 @@ public class Data {
         this.accessToken = accessToken;
     }
 }
+

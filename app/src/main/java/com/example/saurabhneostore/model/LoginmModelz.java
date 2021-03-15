@@ -1,17 +1,16 @@
-
-package com.example.saurabhneostore.Login;
+package com.example.saurabhneostore.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Apisuccess {
+public class LoginmModelz {
 
     @SerializedName("status")
     @Expose
     private String status;
     @SerializedName("data")
     @Expose
-    private Data data;
+    private DataLogin data;
     @SerializedName("message")
     @Expose
     private String message;
@@ -23,7 +22,7 @@ public class Apisuccess {
      * No args constructor for use in serialization
      *
      */
-    public Apisuccess() {
+    public LoginmModelz() {
     }
 
     /**
@@ -33,13 +32,15 @@ public class Apisuccess {
      * @param userMsg
      * @param status
      */
-    public Apisuccess(String status, Data data, String message, String userMsg) {
+    public LoginmModelz(String status, DataLogin data, String message, String userMsg) {
         super();
         this.status = status;
         this.data = data;
         this.message = message;
         this.userMsg = userMsg;
     }
+
+
 
     public String getStatus() {
         return status;
@@ -49,11 +50,11 @@ public class Apisuccess {
         this.status = status;
     }
 
-    public Data getData() {
+    public DataLogin getData() {
         return data;
     }
 
-    public void setData(Data data) {
+    public void setData(DataLogin data) {
         this.data = data;
     }
 

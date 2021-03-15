@@ -1,29 +1,28 @@
 package com.example.saurabhneostore.Login;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.saurabhneostore.R;
 import com.example.saurabhneostore.Register.Register;
 import com.example.saurabhneostore.forgetpassword.Forget;
+import com.example.saurabhneostore.homepage.Homepage;
+import com.example.saurabhneostore.model.LoginmModelz;
+import com.example.saurabhneostore.viewmodel.LoginViewModel;
+import com.example.saurabhneostore.viewmodel.LoginViewModelFactory;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import org.json.JSONObject;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Login extends AppCompatActivity
 {
@@ -31,7 +30,10 @@ public class Login extends AppCompatActivity
     Button login;
     EditText usern,pass;
     TextView tv1;
-    JsonApi jsonApi;
+    private LoginViewModel loginViewModel;
+    public static final String PREFS_NAME = "MySharedPref";
+
+
 
 
     @Override
@@ -48,10 +50,55 @@ public class Login extends AppCompatActivity
         pass=findViewById(R.id.passwrd);
         tv1=findViewById(R.id.forgo);
 
+
+
+        loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory(this)).get(LoginViewModel.class);
+        loginViewModel.getLoginListObserver().observe(this, new Observer<LoginmModelz>() {
+            @Override
+            public void onChanged(LoginmModelz loginmModelz) {
+                if(loginmModelz!=null)
+                {
+                    String F = loginmModelz.getData().getFirstName();
+                    String L = loginmModelz.getData().getLastName();
+                    String U = loginmModelz.getData().getUsername();
+                    String E = loginmModelz.getData().getEmail();
+                    String G = loginmModelz.getData().getGender();
+                    String P = loginmModelz.getData().getPhoneNo();
+                    String A =loginmModelz.getData().getAccessToken();
+                    String bday= String.valueOf(loginmModelz.getData().getDob());
+                    String photo= String.valueOf(loginmModelz.getData().getProfilePic());
+                    Log.d("pintu","Login - photo "+photo);
+
+                    SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME,MODE_PRIVATE);
+                    SharedPreferences.Editor myEdit = sharedPreferences.edit();
+                    myEdit.putString("FName", F.toUpperCase());
+                    myEdit.putString("LName", L.toUpperCase());
+                    myEdit.putString("UName", U);
+                    myEdit.putString("Email", E);
+                    myEdit.putString("Gender", G);
+                    myEdit.putString("Phone", P);
+//                    myEdit.putBoolean("hasloggedin",true);
+                    myEdit.putString("Access",A);
+                    myEdit.putString("Bday",bday);
+                    myEdit.putString("Pic",photo);
+
+                    myEdit.commit();
+
+                    Intent intent=new Intent(Login.this, Homepage.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        });
+
+
+
+
         flt1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Login.this, Register.class));
+                Log.d("main","float is pressed");
             }
         });
 
@@ -61,6 +108,8 @@ public class Login extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
+                String ed1=usern.getText().toString();
+                String ed2=pass.getText().toString();
                 if(usern.getText().toString().isEmpty()||pass.getText().toString().isEmpty())
                 {
                     if (usern.getText().toString().isEmpty())
@@ -77,58 +126,45 @@ public class Login extends AppCompatActivity
                 }
                 else
                 {
-                    String ed1=usern.getText().toString();
-                    String ed2=pass.getText().toString();
-                    Retrofit retrofit=new Retrofit.Builder()
-                            .baseUrl("http://staging.php-dev.in:8844/trainingapp/api/users/")
-                            .addConverterFactory(GsonConverterFactory.create())
-                            .build();
-                    jsonApi=retrofit.create(JsonApi.class);
-//                    LoginModel loginModel=new LoginModel(ed1,ed2);
-                    Call<Apisuccess> call=jsonApi.checkdata(ed1,ed2);
-                    call.enqueue(new Callback<Apisuccess>() {
-                        @Override
-                        public void onResponse(Call<Apisuccess> call, Response<Apisuccess> response)
-                        {
-                            if(response.isSuccessful()){
 
-                                Toast.makeText(Login.this, response.body().getMessage(), Toast.LENGTH_LONG).show();
-                                //startActivity(new Intent(Login.this, Homepage.class));
-                            } else {
-                                try {
-                                    JSONObject jObjError = new JSONObject(response.errorBody().string());
-                                    Toast.makeText(
-                                            Login.this,
-                                            jObjError.getString("user_msg"),
-                                            Toast.LENGTH_LONG).show();
-                                } catch (Exception e) {
-                                    Toast.makeText(Login.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                                }
-                            }
+                    loginViewModel.makeApiCall(ed1,ed2);
 
 
-                        }
+//                    loginNeoBinding= DataBindingUtil.setContentView(Login.this,R.layout.login_neo);
+//                    loginViewModel=new LoginViewModel(Login.this);
+//                    loginNeoBinding.setLoginview(loginViewModel);
+//                    Log.d("main","inside else part");
+//
+//
+//                    loginNeoBinding.setPresenter(new Presenter() {
+//                        @Override
+//                        public void logindata() {
+//
+//                            final String name=loginNeoBinding.username.getText().toString();
+//                            final String pass=loginNeoBinding.passwrd.getText().toString();
+//
+//                            loginViewModel.sendloginrequest(name,pass);
+//                            Log.d("main","inside logindata function");
+//
+//                        }
+//                    });
 
-                        @Override
-                        public void onFailure(Call<Apisuccess> call, Throwable t)
-                        {
-                            Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_LONG).show();
-
-                            System.out.println("-----"+t.getMessage());
-                        }
-                    });
-//                    Toast.makeText(getApplicationContext(),"Entered data is"+usern.getText().toString()+" "
-//                            +pass.getText().toString(),Toast.LENGTH_LONG).show();
+//
+                    Log.d("main","last line of else");
                 }
+
 
             }
         });
-
         tv1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Login.this, Forget.class));
+                startActivity(new Intent(Login.this,Forget.class));
+                Log.d("main","forget is clicked");
             }
         });
+
     }
+
+
 }

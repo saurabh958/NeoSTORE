@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.saurabhneostore">
     <uses-permission android:name="android.permission.INTERNET">
-
     </uses-permission>
 
     <application
@@ -14,9 +13,15 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.SaurabhNeoSTORE">
         <activity android:name=".homepage.Homepage"/>
+        <activity android:name=".drawer.TableList"/>
+        <activity android:name=".drawer.MyAccount"/>
+        <activity android:name=".drawer.ResetPass"/>
+        <activity android:name=".drawer.MyCart"/>
         <activity android:name=".Register.Register"/>
+        <activity android:name=".drawer.EditProfile"/>
+        <activity android:name=".Login.Login"/>
         <activity android:name=".forgetpassword.Forget"/>
-        <activity android:name=".Login.Login">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

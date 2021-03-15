@@ -1,5 +1,6 @@
 package com.example.saurabhneostore.Register;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,20 +10,16 @@ import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.example.saurabhneostore.Login.Apisuccess;
+import com.example.saurabhneostore.Login.Login;
 import com.example.saurabhneostore.R;
-
-import org.json.JSONObject;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import com.example.saurabhneostore.model.LoginmModelz;
+import com.example.saurabhneostore.viewmodel.RegisterViewModel;
+import com.example.saurabhneostore.viewmodel.RegisterViewModelFactory;
 
 
 public class Register extends AppCompatActivity
@@ -33,9 +30,10 @@ public class Register extends AppCompatActivity
     RadioGroup rgp1;
     RadioButton maler,femaler;
     TextView inv1;
-    JsonPlaceHolderApi jsonPlaceHolderApi;
+
     String gendr;
     ImageButton imageButton;
+    RegisterViewModel registerViewModel;
 
 
     @Override
@@ -70,6 +68,18 @@ public class Register extends AppCompatActivity
         maler=findViewById(R.id.male);
         femaler=findViewById(R.id.female);
         inv1=findViewById(R.id.inv);
+
+        registerViewModel=new ViewModelProvider(this,new RegisterViewModelFactory(this)).get(RegisterViewModel.class);
+        registerViewModel.getRegisterListObserver().observe(this, new Observer<LoginmModelz>() {
+            @Override
+            public void onChanged(LoginmModelz loginmModelz) {
+                if(loginmModelz!=null)
+                {
+                    Intent intent=new Intent(Register.this, Login.class);
+                    startActivity(intent);
+                }
+            }
+        });
 
 
 
@@ -203,42 +213,46 @@ public class Register extends AppCompatActivity
                         gendr=femaler.getText().toString().substring(0,1);
                     }
                     System.out.println("gender is"+gendr+"phn is"+phn);
-                    Retrofit retrofit=new Retrofit.Builder()
-                            .baseUrl("http://staging.php-dev.in:8844/trainingapp/api/users/")
-                            .addConverterFactory(GsonConverterFactory.create())
-                            .build();
+                    registerViewModel.makeregisterapicall(ed1,ed2,ed3,ed4,ed5,gendr,phn);
 
-                    jsonPlaceHolderApi=retrofit.create(JsonPlaceHolderApi.class);
+
+
+//                    Retrofit retrofit=new Retrofit.Builder()
+//                            .baseUrl("http://staging.php-dev.in:8844/trainingapp/api/users/")
+//                            .addConverterFactory(GsonConverterFactory.create())
+//                            .build();
+//
+//                    jsonPlaceHolderApi=retrofit.create(JsonPlaceHolderApi.class);
                     //RegisterModel registerModel=new RegisterModel(ed1,ed2,ed3,ed4,ed5,gendr,phn);
 
-                    Call<Apisuccess> call=jsonPlaceHolderApi.createdata(ed1,ed2,ed3,ed4,ed5,gendr,phn);
-                    call.enqueue(new Callback<Apisuccess>() {
-                        @Override
-                        public void onResponse(Call<Apisuccess> call, Response<Apisuccess> response)
-                        {
-                            if(response.isSuccessful()){
-
-                                Toast.makeText(Register.this, response.body().getMessage(), Toast.LENGTH_LONG).show();
-                            } else {
-                                try {
-                                    JSONObject jObjError = new JSONObject(response.errorBody().string());
-                                    Toast.makeText(
-                                            Register.this,
-                                            jObjError.getString("user_msg"),
-                                            Toast.LENGTH_LONG).show();
-                                } catch (Exception e) {
-                                    Toast.makeText(Register.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                                }
-                            }
-
-                        }
-                        @Override
-                        public void onFailure(Call<Apisuccess> call, Throwable t)
-                        {
-                            Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_LONG).show();
-                            System.out.println("-----"+t.getMessage());
-                        }
-                    });
+//                    Call<Apisuccess> call=jsonPlaceHolderApi.createdata(ed1,ed2,ed3,ed4,ed5,gendr,phn);
+//                    call.enqueue(new Callback<Apisuccess>() {
+//                        @Override
+//                        public void onResponse(Call<Apisuccess> call, Response<Apisuccess> response)
+//                        {
+//                            if(response.isSuccessful()){
+//
+//                                Toast.makeText(Register.this, response.body().getMessage(), Toast.LENGTH_LONG).show();
+//                            } else {
+//                                try {
+//                                    JSONObject jObjError = new JSONObject(response.errorBody().string());
+//                                    Toast.makeText(
+//                                            Register.this,
+//                                            jObjError.getString("user_msg"),
+//                                            Toast.LENGTH_LONG).show();
+//                                } catch (Exception e) {
+//                                    Toast.makeText(Register.this, e.getMessage(), Toast.LENGTH_LONG).show();
+//                                }
+//                            }
+//
+//                        }
+//                        @Override
+//                        public void onFailure(Call<Apisuccess> call, Throwable t)
+//                        {
+//                            Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_LONG).show();
+//                            System.out.println("-----"+t.getMessage());
+//                        }
+//                    });
                 }
             }
         });
