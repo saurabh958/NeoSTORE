@@ -1,6 +1,8 @@
 package com.example.saurabhneostore.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.saurabhneostore.R;
+import com.example.saurabhneostore.drawer.ProductDetail;
 import com.example.saurabhneostore.model.Datum;
 import com.squareup.picasso.Picasso;
 
@@ -57,6 +60,21 @@ public class TableListAdapter extends RecyclerView.Adapter<TableListAdapter.Tabl
                 .load(itemsList.get(position).getProductImages())
                 .fit()
                 .into(holder.tableimage);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent=new Intent(context, ProductDetail.class);
+                String s1= String.valueOf(itemsList.get(position).getId());
+                String s2=itemsList.get(position).getProductImages();
+                Log.d("annu",s1);
+                intent.putExtra("productid",s1);
+
+                context.startActivity(intent);
+
+            }
+        });
 
 
     }

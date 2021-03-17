@@ -1,6 +1,8 @@
 package com.example.saurabhneostore.network;
 
 import com.example.saurabhneostore.model.LoginmModelz;
+import com.example.saurabhneostore.model.ProductModel;
+import com.example.saurabhneostore.model.RateModel;
 import com.example.saurabhneostore.model.TableModel;
 
 import retrofit2.Call;
@@ -52,5 +54,13 @@ public interface Apiservice
                                @Field("old_password")String old,
                                @Field("password")String pass,
                                @Field("confirm_password")String confpass);
+
+    @GET("getDetail")
+    Call<ProductModel>getProductDetail(@Query("product_id")String product_id);
+
+    @FormUrlEncoded
+    @POST("setRating")
+    Call<RateModel> ratePost(@Field("product_id") String product_id,
+                             @Field("rating") String rating);
 
 }

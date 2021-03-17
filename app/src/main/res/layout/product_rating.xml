@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/rating_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="6 Seater Dining Table"
+        android:textColor="#2C2B2B"
+        android:textSize="28sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="38dp">
+
+    </TextView>
+
+    <ImageView
+        android:id="@+id/rating_image"
+        android:layout_width="294dp"
+        android:layout_height="203dp"
+        android:layout_below="@id/rating_title"
+        android:src="@drawable/productimage2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="38dp">
+
+    </ImageView>
+
+    <RatingBar
+        android:id="@+id/rating_ratingbar"
+        style="?android:attr/ratingBarStyleIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rating_image"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:isIndicator="false"
+        android:numStars="5"
+        android:progressTint="#FFBA00"
+        android:progressBackgroundTint="#4F4F4F"
+        android:stepSize="0.1" />
+
+    <Button
+        android:id="@+id/rating_ratenowbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RATE NOW"
+        android:paddingRight="50dp"
+        android:paddingLeft="50dp"
+        android:backgroundTint="@color/red"
+        android:textColor="@color/white"
+        android:layout_below="@id/rating_ratingbar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"/>
+
+</RelativeLayout>
