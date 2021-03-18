@@ -1,7 +1,9 @@
 package com.example.saurabhneostore.network;
 
 import com.example.saurabhneostore.model.LoginmModelz;
+import com.example.saurabhneostore.model.MyCart.MyCartModel;
 import com.example.saurabhneostore.model.ProductModel;
+import com.example.saurabhneostore.model.QuantityModel;
 import com.example.saurabhneostore.model.RateModel;
 import com.example.saurabhneostore.model.TableModel;
 
@@ -62,5 +64,24 @@ public interface Apiservice
     @POST("setRating")
     Call<RateModel> ratePost(@Field("product_id") String product_id,
                              @Field("rating") String rating);
+
+    @FormUrlEncoded
+    @POST("addToCart")
+    Call<QuantityModel> quantityAdd(@Header("access_token") String access,
+                                    @Field("product_id") String product_id,
+                                    @Field("quantity") String quantity);
+
+    @GET("cart")
+    Call<MyCartModel>getCartDetail(@Header("access_token")String access);
+
+
+    @FormUrlEncoded
+    @POST("deleteCart")
+    Call<QuantityModel> deleteItem(@Header("access_token") String access,
+                                    @Field("product_id") String product_id);
+
+
+
+
 
 }

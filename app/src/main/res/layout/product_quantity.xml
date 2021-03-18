@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/quantity_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="6 Seater Dining Table"
+        android:textColor="#2C2B2B"
+        android:textSize="28sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="38dp">
+
+    </TextView>
+
+    <ImageView
+        android:id="@+id/quantity_image"
+        android:layout_width="294dp"
+        android:layout_height="203dp"
+        android:layout_below="@id/quantity_title"
+        android:src="@drawable/productimage2"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_marginTop="38dp">
+
+    </ImageView>
+
+    <TextView
+        android:id="@+id/enterqty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter Qty"
+        android:textSize="22sp"
+        android:textColor="#2C2B2B"
+        android:layout_below="@id/quantity_image"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="25dp"/>
+
+    <EditText
+        android:id="@+id/qtyedit"
+        android:layout_width="128dp"
+        android:layout_height="49dp"
+        android:layout_below="@id/enterqty"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/qtyedittext"
+        android:inputType="numberDecimal"
+        android:padding="10dp"
+        android:layout_marginBottom="25dp"/>
+
+
+    <Button
+        android:id="@+id/quantity_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SUBMIT"
+        android:paddingRight="50dp"
+        android:paddingLeft="50dp"
+        android:backgroundTint="@color/red"
+        android:textColor="@color/white"
+        android:layout_below="@id/qtyedit"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

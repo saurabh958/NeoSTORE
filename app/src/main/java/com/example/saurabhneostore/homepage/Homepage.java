@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
@@ -39,6 +40,7 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
     TextView tv1,tv2;
     ViewPager mviewpager;
     TabLayout tabLayout;
+    CardView tablecard;
 
 
     int[] images={R.drawable.sliderimage1,R.drawable.sliderimage2,R.drawable.imageslider3,R.drawable.sliderimage4};
@@ -53,6 +55,23 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
         drawerLayout=findViewById(R.id.drawerly);
         navigationView=findViewById(R.id.navview);
         toolbar=findViewById(R.id.toolbar);
+
+        tablecard=findViewById(R.id.homepage_cardtable);
+        tablecard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Homepage.this, TableList.class);
+                startActivity(intent);
+            }
+        });
+
+
+
+
+
+
+
+
 
         View headerContainer = navigationView.getHeaderView(0);
         tv1=headerContainer.findViewById(R.id.currentname);

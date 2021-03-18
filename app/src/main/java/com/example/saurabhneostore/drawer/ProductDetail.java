@@ -2,10 +2,12 @@ package com.example.saurabhneostore.drawer;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -18,13 +20,17 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.saurabhneostore.Login.Login;
 import com.example.saurabhneostore.R;
 import com.example.saurabhneostore.adapters.ProductImageAdapter;
 import com.example.saurabhneostore.model.Data;
 import com.example.saurabhneostore.model.ProductImage;
 import com.example.saurabhneostore.model.ProductModel;
+import com.example.saurabhneostore.model.QuantityModel;
 import com.example.saurabhneostore.model.RateModel;
 import com.example.saurabhneostore.viewmodel.ProductDetailViewModel;
+import com.example.saurabhneostore.viewmodel.QuantityViewModel;
+import com.example.saurabhneostore.viewmodel.QuantityViewModelFactory;
 import com.example.saurabhneostore.viewmodel.RateVM;
 import com.example.saurabhneostore.viewmodel.RateVMFactory;
 import com.squareup.picasso.Picasso;
@@ -43,7 +49,9 @@ public class ProductDetail extends AppCompatActivity {
     Data list1;
     String s1;
     RateVM rateVM;
+    QuantityViewModel quantityViewModel;
     public Dialog dialog;
+    public Dialog quantitydialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +62,7 @@ public class ProductDetail extends AppCompatActivity {
         firstimage = findViewById(R.id.firstimage);
         buyproduct = findViewById(R.id.buynowbutton);
         rateproduct = findViewById(R.id.ratebutton);
+
 
 
         Share = findViewById(R.id.sharebutton);
@@ -72,6 +81,13 @@ public class ProductDetail extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openrate();
+            }
+        });
+
+        buyproduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openbuynow();
             }
         });
 
@@ -99,6 +115,18 @@ public class ProductDetail extends AppCompatActivity {
         s1 = getIntent().getStringExtra("productid");
 
         Log.d("annu", "in product detail" + s1);
+
+
+        quantityViewModel=new ViewModelProvider(this,new QuantityViewModelFactory(this)).get(QuantityViewModel.class);
+        quantityViewModel.getQuantityLiveData().observe(this, new Observer<QuantityModel>() {
+            @Override
+            public void onChanged(QuantityModel quantityModel) {
+                if(quantityModel!=null)
+                {
+                    Log.d("annu","quantity success");
+                }
+            }
+        });
 
         rateVM = new ViewModelProvider(this, new RateVMFactory(this)).get(RateVM.class);
         rateVM.getRatingObserver().observe(this, new Observer<RateModel>() {
@@ -140,6 +168,41 @@ public class ProductDetail extends AppCompatActivity {
         });
 
         productDetailViewModel.makeProductApiCall(s1);
+    }
+
+    private void openbuynow() {
+
+        quantitydialog=new Dialog(ProductDetail.this);
+        quantitydialog.setContentView(R.layout.product_quantity);
+        quantitydialog.show();
+        TextView title=quantitydialog.findViewById(R.id.quantity_title);
+        title.setText(list1.getName());
+        Log.d("annu","inopenbuynow");
+
+        ImageView img=quantitydialog.findViewById(R.id.quantity_image);
+        Picasso.with(getApplicationContext())
+                .load(list1.getProductImages().get(0).getImage())
+                .fit()
+                .into(img);
+
+        EditText qty=quantitydialog.findViewById(R.id.qtyedit);
+
+
+        Button quantsubmit=quantitydialog.findViewById(R.id.quantity_submit);
+        quantsubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("annu","inonclicksubmitbutton");
+                String qunty=qty.getText().toString();
+                Log.d("annu",qunty);
+                SharedPreferences sp = getSharedPreferences(Login.PREFS_NAME,MODE_PRIVATE);
+                String token=sp.getString("Access","");
+                Log.d("annu",token+"token is");
+                quantityViewModel.sendQuantity(token,s1,qunty);
+                quantitydialog.dismiss();
+            }
+        });
+
     }
 
     private void openrate() {
