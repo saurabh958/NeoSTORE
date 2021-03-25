@@ -1,6 +1,7 @@
 package com.example.saurabhneostore.adapters;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ public class ProductImageAdapter extends RecyclerView.Adapter<ProductImageAdapte
 
     private List<ProductImage>productImages;
     private Context context;
+    int selectedItem;
 
     public ProductImageAdapter(List<ProductImage> productImages, Context context) {
         this.productImages = productImages;
@@ -53,16 +55,29 @@ public class ProductImageAdapter extends RecyclerView.Adapter<ProductImageAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Picasso.with(context)
-                        .load(productImages.get(position).getImage())
-                        .fit()
-                        .into(ProductDetail.firstimage);
+                selectedItem=position;
 
-
-
+                notifyDataSetChanged();
 
             }
         });
+
+        if(selectedItem==position)
+        {
+            Drawable d=context.getResources().getDrawable(R.drawable.stroke_red);
+            holder.itemView.setBackground(d);
+
+        }
+        else{
+            Drawable d=context.getResources().getDrawable(R.drawable.stroke_black);
+            holder.itemView.setBackground(d);
+
+        }
+        Picasso.with(context)
+                .load(productImages.get(selectedItem).getImage())
+                .fit()
+                .into(ProductDetail.firstimage);
+
 
     }
 

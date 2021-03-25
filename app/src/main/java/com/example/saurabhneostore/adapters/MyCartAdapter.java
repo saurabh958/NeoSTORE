@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -32,7 +33,8 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.CartViewHo
     private Context context;
     private List<Datum>cartlist;
     public SharedPreferences sp;
-
+    Boolean initialDisplay=true;
+    String token;
 
 
 
@@ -63,6 +65,9 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.CartViewHo
                     .fit()
                     .into(holder.cartimage);
 
+        sp = context.getSharedPreferences(Login.PREFS_NAME,MODE_PRIVATE);
+        token=sp.getString("Access","");
+
 
         List<String> list = new ArrayList<String>();
         list.add("1");
@@ -87,16 +92,38 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.CartViewHo
             @Override
             public void onClick(View v) {
                 Log.d("annu","in deletecart onclick ");
-                sp = context.getSharedPreferences(Login.PREFS_NAME,MODE_PRIVATE);
-                String token=sp.getString("Access","");
-                Log.d("annu","token"+token);
+
+
                 String id=cartlist.get(position).getProductId().toString();
                 Log.d("annu","productid is"+id);
+                Log.d("annu","1");
                 MyCart.deleteCartItemViewModel.deleteCartItem(token,id);
                 Log.d("annu","deletecartcalled");
+
+
             }
         });
+
+
+        initialDisplay = false;
+        holder.quantity.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                initialDisplay = true;
+                v.performClick();
+                return false;
+            }
+        });
+
+
+
+
+
+
     }
+
+
+
 
     @Override
     public int getItemCount() {
@@ -107,11 +134,14 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.CartViewHo
         return 0;
     }
 
+
+
     public class CartViewHolder extends RecyclerView.ViewHolder {
         ImageView cartimage;
         TextView name,category,cost;
         Spinner quantity;
         ImageButton delete;
+
 
         public CartViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -123,15 +153,29 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.CartViewHo
             quantity=itemView.findViewById(R.id.mycart_spinner);
             delete=itemView.findViewById(R.id.mycart_delete);
 
+            context=itemView.getContext();
+
+
 
 
             quantity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    String item=parent.getItemAtPosition(position).toString();
-                    Log.d("annu",item);
+                    int itemposition=getLayoutPosition();
+                    String pro_id=cartlist.get(itemposition).getProductId().toString();
+
+                    String quantity1=parent.getItemAtPosition(position).toString();
+                    Log.d("annu",quantity1+"on item selected called");
+                    if(initialDisplay)
+                    {
+                        MyCart.editCartViewModel.editCartitem(token,pro_id,quantity1);
+
+
+                    }
+
 
                 }
+
 
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {

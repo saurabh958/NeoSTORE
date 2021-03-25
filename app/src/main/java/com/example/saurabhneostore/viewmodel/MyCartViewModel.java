@@ -47,10 +47,11 @@ public class MyCartViewModel extends ViewModel {
             public void onResponse(Call<MyCartModel> call, Response<MyCartModel> response) {
                 if(response.isSuccessful())
                 {
+                    Log.d("annu","6");
                     Log.d("annu","in on response if condition");
 
                     mycartlivedata.postValue(response.body());
-                    Toast.makeText(context,"Data Loaded",Toast.LENGTH_SHORT).show();
+
                 }
                 else
                 {

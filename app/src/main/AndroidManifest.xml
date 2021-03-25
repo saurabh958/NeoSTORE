@@ -6,6 +6,11 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -14,12 +19,23 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.SaurabhNeoSTORE">
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyAXk0UurocU9ERQINKTw0M4g2GjrC-Yxgs" />
+
+
         <activity android:name=".homepage.Homepage"/>
         <activity android:name=".drawer.TableList"/>
         <activity android:name=".drawer.MyAccount"/>
         <activity android:name=".drawer.ProductDetail"/>
         <activity android:name=".drawer.ResetPass"/>
         <activity android:name=".drawer.MyCart"/>
+        <activity android:name=".drawer.EmptyCart"/>
+        <activity android:name=".drawer.AddAddress"/>
+        <activity android:name=".drawer.MyOrder"/>
+        <activity android:name=".drawer.DetailOrder"/>
+        <activity android:name=".drawer.StoreLocator"/>
         <activity android:name=".Register.Register"/>
         <activity android:name=".drawer.EditProfile"/>
         <activity android:name=".Login.Login"/>

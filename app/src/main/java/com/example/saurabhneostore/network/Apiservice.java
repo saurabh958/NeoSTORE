@@ -1,11 +1,15 @@
 package com.example.saurabhneostore.network;
 
+import com.example.saurabhneostore.model.FetchAccount.FetchDetailModel;
 import com.example.saurabhneostore.model.LoginmModelz;
 import com.example.saurabhneostore.model.MyCart.MyCartModel;
+import com.example.saurabhneostore.model.Order.OrderModel;
 import com.example.saurabhneostore.model.ProductModel;
 import com.example.saurabhneostore.model.QuantityModel;
 import com.example.saurabhneostore.model.RateModel;
 import com.example.saurabhneostore.model.TableModel;
+import com.example.saurabhneostore.model.myordermodel.DetailOrder;
+import com.example.saurabhneostore.model.myordermodel.MyOrderModel;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -79,6 +83,32 @@ public interface Apiservice
     @POST("deleteCart")
     Call<QuantityModel> deleteItem(@Header("access_token") String access,
                                     @Field("product_id") String product_id);
+
+
+    @FormUrlEncoded
+    @POST("editCart")
+    Call<QuantityModel> editItem(@Header("access_token") String access,
+                                 @Field("product_id") String product_id,
+                                 @Field("quantity")String Quantity);
+
+
+    @FormUrlEncoded
+    @POST("order")
+    Call<OrderModel> orderItem(@Header("access_token") String access,
+                                @Field("address") String Address);
+
+    @GET("orderList")
+    Call<MyOrderModel> getOrderList(@Header("access_token")String access);
+
+
+    @GET("orderDetail")
+    Call<DetailOrder> getOrderDetail(@Header("access_token")String access,
+                                     @Query("order_id")String orderid);
+
+    @GET("getUserData")
+    Call<FetchDetailModel> fetchAccountDetail(@Header("access_token")String access);
+
+
 
 
 

@@ -46,6 +46,7 @@ public class EditProfile extends AppCompatActivity
     Bitmap bitmap;
     String bitprofile;
     DatePickerDialog datePickerDialog;
+    public static final String PREFS_NAME = "MySharedPref";
 
 
     @Override
@@ -102,7 +103,7 @@ public class EditProfile extends AppCompatActivity
 
 
         Log.d("editprofile","in oncreate");
-        SharedPreferences sp = getSharedPreferences("MySharedPref",MODE_PRIVATE);
+        SharedPreferences sp = getSharedPreferences(Login.PREFS_NAME,MODE_PRIVATE);
         fname.setText(sp.getString("FName",""));
         lname.setText(sp.getString("LName",""));
         email.setText(sp.getString("Email",""));
@@ -125,8 +126,35 @@ public class EditProfile extends AppCompatActivity
             public void onChanged(LoginmModelz loginmModelz) {
 
                 //Toast.makeText(EditProfile.this,"Data changed successfully",Toast.LENGTH_LONG).show();
+
+                String F = loginmModelz.getData().getFirstName();
+                String L = loginmModelz.getData().getLastName();
+                String U = loginmModelz.getData().getUsername();
+                String E = loginmModelz.getData().getEmail();
+                String G = loginmModelz.getData().getGender();
+                String P = loginmModelz.getData().getPhoneNo();
+                String A =loginmModelz.getData().getAccessToken();
+                String bday= String.valueOf(loginmModelz.getData().getDob());
+                String photo= String.valueOf(loginmModelz.getData().getProfilePic());
+
+                SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME,MODE_PRIVATE);
+                SharedPreferences.Editor myEdit = sharedPreferences.edit();
+                myEdit.putString("FName", F.toUpperCase());
+                myEdit.putString("LName", L.toUpperCase());
+                myEdit.putString("UName", U);
+                myEdit.putString("Email", E);
+                myEdit.putString("Gender", G);
+                myEdit.putString("Phone", P);
+//                    myEdit.putBoolean("hasloggedin",true);
+                myEdit.putString("Access",A);
+                myEdit.putString("Bday",bday);
+                myEdit.putString("Pic",photo);
+                myEdit.commit();
+
+
+
                 Log.d("editprofile","in onchanged (data changed success)");
-                Intent intent=new Intent(EditProfile.this,Login.class);
+                Intent intent=new Intent(EditProfile.this,MyAccount.class);
                 startActivity(intent);
                 finish();
 

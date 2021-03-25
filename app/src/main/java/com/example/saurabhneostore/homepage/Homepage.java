@@ -22,6 +22,8 @@ import com.example.saurabhneostore.R;
 import com.example.saurabhneostore.adapters.ViewPagerAdapter;
 import com.example.saurabhneostore.drawer.MyAccount;
 import com.example.saurabhneostore.drawer.MyCart;
+import com.example.saurabhneostore.drawer.MyOrder;
+import com.example.saurabhneostore.drawer.StoreLocator;
 import com.example.saurabhneostore.drawer.TableList;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
@@ -64,13 +66,6 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
                 startActivity(intent);
             }
         });
-
-
-
-
-
-
-
 
 
         View headerContainer = navigationView.getHeaderView(0);
@@ -169,6 +164,17 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
             finish();
 
         }
+        else if(id==R.id.myorders)
+        {
+            Intent intent=new Intent(Homepage.this, MyOrder.class);
+            startActivity(intent);
+        }
+        else if(id==R.id.storelocator)
+        {
+            Intent intent=new Intent(Homepage.this, StoreLocator.class);
+            startActivity(intent);
+
+        }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -190,5 +196,18 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences sp = getSharedPreferences(Login.PREFS_NAME,MODE_PRIVATE);
+        tv1.setText(sp.getString("FName","")+" "+sp.getString("LName",""));
+        tv2.setText(sp.getString("Email",""));
 
+        String imagehome=sp.getString("Pic","");
+        Log.d("pintu","prefs - string image"+imagehome);
+        Picasso.with(getApplicationContext())
+                .load(imagehome)
+                .fit()
+                .into(circleImageView);
+    }
 }

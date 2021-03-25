@@ -1,13 +1,12 @@
 package com.example.saurabhneostore.viewmodel;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.saurabhneostore.model.QuantityModel;
+import com.example.saurabhneostore.model.myordermodel.DetailOrder;
 import com.example.saurabhneostore.network.Apiservice;
 import com.example.saurabhneostore.network.RetroInstance;
 
@@ -17,52 +16,37 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DeleteCartItemViewModel extends ViewModel
+public class DetailOrderViewModel extends ViewModel
 {
-
-
-
     private Context context;
-    private MutableLiveData<QuantityModel>deletecartlivedata;
+    private MutableLiveData<DetailOrder>detailOrderMutableLiveData;
 
-    public DeleteCartItemViewModel(Context context) {
+    public DetailOrderViewModel(Context context) {
         this.context = context;
     }
 
-    public MutableLiveData<QuantityModel>getDeletecartlivedata()
+    public MutableLiveData<DetailOrder>getDetailOrderMutableLiveData()
     {
-        if(deletecartlivedata==null)
+        if(detailOrderMutableLiveData==null)
         {
-            deletecartlivedata=new MutableLiveData<>();
+            detailOrderMutableLiveData=new MutableLiveData<>();
         }
-        return deletecartlivedata;
+        return detailOrderMutableLiveData;
     }
 
-    public void deleteCartItem(String access,String productid)
+    public void loaddetailorder(String access,String orderid)
     {
-        Log.d("annu","in deletecart method begin to call ");
         Apiservice apiservice= RetroInstance.getCartretrofit().create(Apiservice.class);
-        Call<QuantityModel>deleteCartCall=apiservice.deleteItem(access,productid);
-        deleteCartCall.enqueue(new Callback<QuantityModel>() {
+        Call<DetailOrder>detailOrderCall=apiservice.getOrderDetail(access,orderid);
+        detailOrderCall.enqueue(new Callback<DetailOrder>() {
             @Override
-            public void onResponse(Call<QuantityModel> call, Response<QuantityModel> response) {
+            public void onResponse(Call<DetailOrder> call, Response<DetailOrder> response) {
                 if(response.isSuccessful())
                 {
-                    Log.d("annu","in onresponse of deletecart");
-                    deletecartlivedata.postValue(response.body());
-                    Toast.makeText(context,"Item Deleted from cart",Toast.LENGTH_LONG).show();
-                    Log.d("annu","2");
-
-
-
-
-
-
-
+                    detailOrderMutableLiveData.postValue(response.body());
                 }
                 else
                 {
-                    Log.d("annu","response fail error msg is"+response.errorBody().toString());
                     try {
                         JSONObject jObjError = new JSONObject(response.errorBody().string());
                         Toast.makeText(
@@ -73,21 +57,17 @@ public class DeleteCartItemViewModel extends ViewModel
 
                         Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
+
                 }
             }
 
             @Override
-            public void onFailure(Call<QuantityModel> call, Throwable t) {
-
+            public void onFailure(Call<DetailOrder> call, Throwable t) {
                 Toast.makeText(context,"Check Internet Connection",Toast.LENGTH_SHORT).show();
                 System.out.println("-------------------------------------------------------");
                 System.out.println(t.getMessage());
                 System.out.println("------------ff------UnSucessful------------------");
-
             }
         });
     }
-
-
-
 }

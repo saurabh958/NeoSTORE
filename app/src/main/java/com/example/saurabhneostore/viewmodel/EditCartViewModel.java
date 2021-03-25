@@ -17,47 +17,40 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DeleteCartItemViewModel extends ViewModel
-{
+public class EditCartViewModel extends ViewModel {
 
 
 
     private Context context;
-    private MutableLiveData<QuantityModel>deletecartlivedata;
+    private MutableLiveData<QuantityModel>editcartlivedata;
 
-    public DeleteCartItemViewModel(Context context) {
+    public EditCartViewModel(Context context) {
         this.context = context;
     }
 
-    public MutableLiveData<QuantityModel>getDeletecartlivedata()
+    public MutableLiveData<QuantityModel>getEditcartlivedata()
     {
-        if(deletecartlivedata==null)
+        if(editcartlivedata==null)
         {
-            deletecartlivedata=new MutableLiveData<>();
+            editcartlivedata=new MutableLiveData<>();
         }
-        return deletecartlivedata;
+        return editcartlivedata;
     }
 
-    public void deleteCartItem(String access,String productid)
+
+
+    public void editCartitem(String access,String product_id,String quantityz)
     {
-        Log.d("annu","in deletecart method begin to call ");
         Apiservice apiservice= RetroInstance.getCartretrofit().create(Apiservice.class);
-        Call<QuantityModel>deleteCartCall=apiservice.deleteItem(access,productid);
-        deleteCartCall.enqueue(new Callback<QuantityModel>() {
+        Call<QuantityModel>editcartcall=apiservice.editItem(access, product_id, quantityz);
+        editcartcall.enqueue(new Callback<QuantityModel>() {
             @Override
             public void onResponse(Call<QuantityModel> call, Response<QuantityModel> response) {
                 if(response.isSuccessful())
                 {
-                    Log.d("annu","in onresponse of deletecart");
-                    deletecartlivedata.postValue(response.body());
-                    Toast.makeText(context,"Item Deleted from cart",Toast.LENGTH_LONG).show();
-                    Log.d("annu","2");
-
-
-
-
-
-
+                    editcartlivedata.postValue(response.body());
+                    String msg=response.body().getUserMsg();
+                    Toast.makeText(context,msg,Toast.LENGTH_LONG).show();
 
                 }
                 else
@@ -78,15 +71,15 @@ public class DeleteCartItemViewModel extends ViewModel
 
             @Override
             public void onFailure(Call<QuantityModel> call, Throwable t) {
-
                 Toast.makeText(context,"Check Internet Connection",Toast.LENGTH_SHORT).show();
                 System.out.println("-------------------------------------------------------");
                 System.out.println(t.getMessage());
                 System.out.println("------------ff------UnSucessful------------------");
-
             }
         });
     }
+
+
 
 
 

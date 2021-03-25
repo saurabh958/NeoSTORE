@@ -77,6 +77,7 @@ public class MyAccount extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent=new Intent(MyAccount.this,EditProfile.class);
                 startActivity(intent);
+                finish();
             }
         });
 
