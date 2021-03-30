@@ -8,8 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -36,7 +36,7 @@ public class MyCart extends AppCompatActivity {
     RecyclerView recyclerView;
     TextView total,mycarttot;
     LinearLayout empty_layout;
-    Button order;
+    public static Button order;
     public static MyCartViewModel myCartViewModel;
     ImageButton backcutton;
     List<Datum> cartlist;
@@ -45,6 +45,7 @@ public class MyCart extends AppCompatActivity {
     public static SharedPreferences sp;
     public static EditCartViewModel editCartViewModel;
     Boolean flag=true;
+    public static ProgressBar mycartprogress;
 
 
 
@@ -60,6 +61,10 @@ public class MyCart extends AppCompatActivity {
         backcutton=findViewById(R.id.mycart_backbutton);
         mycarttot=findViewById(R.id.mycart_total);
         empty_layout=findViewById(R.id.empty_layout);
+        mycartprogress=findViewById(R.id.mycart_progress_bar);
+        sp = getSharedPreferences(Login.PREFS_NAME,MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sp.edit();
+
 
         backcutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +78,7 @@ public class MyCart extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        sp = getSharedPreferences(Login.PREFS_NAME,MODE_PRIVATE);
+
         String token=sp.getString("Access","");
 
         myCartViewModel=new ViewModelProvider(this,new MyCartViewModelFactory(this)).get(MyCartViewModel.class);
@@ -89,15 +94,13 @@ public class MyCart extends AppCompatActivity {
                     {
                         empty_layout.setVisibility(View.GONE);
                         Log.d("annu","9");
-                        recyclerView.setVisibility(View.VISIBLE);
-                        total.setVisibility(View.VISIBLE);
-                        mycarttot.setVisibility(View.VISIBLE);
-                        order.setVisibility(View.VISIBLE);
                         Log.d("annu","in onchanged ");
                         total.setText("₹"+myCartModel.getTotal());
                         myCartAdapter=new MyCartAdapter(MyCart.this,cartlist);
                         recyclerView.setAdapter(myCartAdapter);
-                        Toast.makeText(MyCart.this,"Data Loaded",Toast.LENGTH_SHORT).show();
+                        editor.putString("cart",myCartModel.getCount().toString());
+                        editor.commit();
+                        //Toast.makeText(MyCart.this,"Data Loaded",Toast.LENGTH_SHORT).show();
                         Log.d("annu","adapter set");
                     }
                     else
@@ -105,6 +108,9 @@ public class MyCart extends AppCompatActivity {
                         Log.d("annu","empty cart");
                         myCartAdapter=new MyCartAdapter(MyCart.this,cartlist);
                         recyclerView.setAdapter(myCartAdapter);
+                        editor.putString("cart","0");
+                        editor.commit();
+
 
                         setGone();
                     }
@@ -178,7 +184,9 @@ public class MyCart extends AppCompatActivity {
 
         Log.d("annu",token+"token data");
         if(flag==true){
+            mycartprogress.setVisibility(View.VISIBLE);
             myCartViewModel.loadcart(token);
+            order.setVisibility(View.GONE);
         }
 
 

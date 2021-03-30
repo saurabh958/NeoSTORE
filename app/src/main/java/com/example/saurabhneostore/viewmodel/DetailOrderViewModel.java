@@ -1,6 +1,7 @@
 package com.example.saurabhneostore.viewmodel;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
@@ -43,6 +44,7 @@ public class DetailOrderViewModel extends ViewModel
             public void onResponse(Call<DetailOrder> call, Response<DetailOrder> response) {
                 if(response.isSuccessful())
                 {
+                    com.example.saurabhneostore.drawer.DetailOrder.progressBar.setVisibility(View.GONE);
                     detailOrderMutableLiveData.postValue(response.body());
                 }
                 else
@@ -53,9 +55,11 @@ public class DetailOrderViewModel extends ViewModel
                                 context,
                                 jObjError.getString("message"),
                                 Toast.LENGTH_SHORT).show();
+                        com.example.saurabhneostore.drawer.DetailOrder.progressBar.setVisibility(View.GONE);
                     } catch (Exception e) {
 
                         Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        com.example.saurabhneostore.drawer.DetailOrder.progressBar.setVisibility(View.GONE);
                     }
 
                 }

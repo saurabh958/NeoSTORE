@@ -9,6 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,11 +28,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class Login extends AppCompatActivity
 {
     FloatingActionButton flt1;
-    Button login;
+    public static Button login;
     EditText usern,pass;
     TextView tv1;
     private LoginViewModel loginViewModel;
     public static final String PREFS_NAME = "MySharedPref";
+    public static ProgressBar login_progress;
+    String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
 
 
@@ -49,6 +52,7 @@ public class Login extends AppCompatActivity
         usern=findViewById(R.id.username);
         pass=findViewById(R.id.passwrd);
         tv1=findViewById(R.id.forgo);
+        login_progress=findViewById(R.id.login_progress);
 
 
 
@@ -85,8 +89,9 @@ public class Login extends AppCompatActivity
                     myEdit.commit();
 
                     Intent intent=new Intent(Login.this, Homepage.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
-                    finish();
+
                 }
             }
         });
@@ -97,8 +102,10 @@ public class Login extends AppCompatActivity
         flt1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Login.this, Register.class));
+                Intent intent=new Intent(Login.this, Register.class);
+                startActivityForResult(intent,2);
                 Log.d("main","float is pressed");
+
             }
         });
 
@@ -110,12 +117,19 @@ public class Login extends AppCompatActivity
             {
                 String ed1=usern.getText().toString();
                 String ed2=pass.getText().toString();
-                if(usern.getText().toString().isEmpty()||pass.getText().toString().isEmpty())
+                if(usern.getText().toString().isEmpty()||pass.getText().toString().isEmpty()||
+                        (pass.getText().toString().length()>0 && pass.getText().toString().length()<6)||
+                        (!usern.getText().toString().matches(emailPattern)))
                 {
                     if (usern.getText().toString().isEmpty())
                     {
                         usern.requestFocus();
-                        usern.setError("Please Enter username");
+                        usern.setError("Please Enter Email");
+
+                    }
+                    else if (!usern.getText().toString().matches(emailPattern)) {
+                        usern.requestFocus();
+                        usern.setError("Please Enter Valid Email Id");
 
                     }
                     if (pass.getText().toString().isEmpty())
@@ -123,11 +137,19 @@ public class Login extends AppCompatActivity
                         pass.requestFocus();
                         pass.setError("Please enter Password");
                     }
+                    if(pass.getText().toString().length()>0 && pass.getText().toString().length()<6){
+                        pass.requestFocus();
+                        pass.setError("Password Greater than 6 Digit");
+                    }
                 }
+
                 else
                 {
+                    login.setVisibility(View.INVISIBLE);
 
                     loginViewModel.makeApiCall(ed1,ed2);
+
+                    login_progress.setVisibility(View.VISIBLE);
 
 
 //                    loginNeoBinding= DataBindingUtil.setContentView(Login.this,R.layout.login_neo);
@@ -159,8 +181,8 @@ public class Login extends AppCompatActivity
         tv1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Login.this,Forget.class));
-                Log.d("main","forget is clicked");
+                Intent intent=new Intent(Login.this, Forget.class);
+                startActivityForResult(intent,2);
             }
         });
 

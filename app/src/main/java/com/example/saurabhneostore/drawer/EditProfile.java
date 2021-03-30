@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -37,16 +38,17 @@ public class EditProfile extends AppCompatActivity
 {
     EditText fname,lname,email,phone,dob;
     CircleImageView img1;
-    Button submit;
+    public static Button submit;
     ImageButton imageButton;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     EditProfileViewModel editProfileViewModel;
     private static final int SELECT_PICTURE = 0;
     private static int RESULT_LOAD_IMAGE = 1;
     Bitmap bitmap;
-    String bitprofile;
+    String bitprofile="";
     DatePickerDialog datePickerDialog;
     public static final String PREFS_NAME = "MySharedPref";
+    public static ProgressBar progressBar;
 
 
     @Override
@@ -62,6 +64,7 @@ public class EditProfile extends AppCompatActivity
         dob=findViewById(R.id.editprofiledob);
         img1=findViewById(R.id.editprofileimage);
         submit=findViewById(R.id.editprofileeditprofilebtn);
+        progressBar=findViewById(R.id.editprofile_progress_bar);
 
         imageButton=findViewById(R.id.editprofilebackbutton);
         imageButton.setOnClickListener(new View.OnClickListener() {
@@ -83,7 +86,7 @@ public class EditProfile extends AppCompatActivity
                         new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        dob.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
+                        dob.setText(dayOfMonth + "-" + (month + 1) + "-" + year);
                     }
                 },mYear, mMonth, mDay);
 
@@ -94,7 +97,7 @@ public class EditProfile extends AppCompatActivity
         img1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(
+                Intent i =new Intent(
                         Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(i, RESULT_LOAD_IMAGE);
@@ -112,11 +115,25 @@ public class EditProfile extends AppCompatActivity
 
 
         String image1=sp.getString("Pic","");
+        Log.d("annu","image 1 data is "+image1);
+        if(!image1.equals("null"))
+        {
+            Log.d("annu","if null wala");
+            Picasso.with(getApplicationContext())
+                    .load(image1)
+                    .fit()
+                    .into(img1);
+
+        }
+
+
+
+
+
+
+
         Log.d("pintu","prefs - string image"+image1);
-        Picasso.with(getApplicationContext())
-                .load(image1)
-                .fit()
-                .into(img1);
+
 
 
 
@@ -155,7 +172,8 @@ public class EditProfile extends AppCompatActivity
 
                 Log.d("editprofile","in onchanged (data changed success)");
                 Intent intent=new Intent(EditProfile.this,MyAccount.class);
-                startActivity(intent);
+                setResult(2,intent);
+                //startActivity(intent);
                 finish();
 
             }
@@ -241,9 +259,25 @@ public class EditProfile extends AppCompatActivity
                     SharedPreferences sp = getSharedPreferences(Login.PREFS_NAME,MODE_PRIVATE);
                     String token=sp.getString("Access","");
                     Log.d("editprofile",token);
-                    editProfileViewModel.editApiCall(token,Fname,Lname,Email,Dob,bitprofile,Phone);
+                    Log.d("annu",bitprofile);
+
+                    if(bitprofile.equals(null))
+                    {
+                        bitprofile="";
+                        submit.setVisibility(View.GONE);
+                        editProfileViewModel.editApiCall(token,Fname,Lname,Email,Dob,bitprofile,Phone);
+                        progressBar.setVisibility(View.VISIBLE);
+                    }
+                    else
+                    {
+                        submit.setVisibility(View.GONE);
+                        editProfileViewModel.editApiCall(token,Fname,Lname,Email,Dob,bitprofile,Phone);
+                        progressBar.setVisibility(View.VISIBLE);
+                    }
+
+
                     Log.d("editprofile","api called");
-                    Log.d("pintu","base64 string is="+bitprofile);
+
 
 
                 }

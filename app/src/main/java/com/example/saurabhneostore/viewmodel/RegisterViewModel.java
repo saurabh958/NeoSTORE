@@ -1,11 +1,13 @@
 package com.example.saurabhneostore.viewmodel;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.saurabhneostore.Register.Register;
 import com.example.saurabhneostore.model.LoginmModelz;
 import com.example.saurabhneostore.network.Apiservice;
 import com.example.saurabhneostore.network.RetroInstance;
@@ -44,6 +46,7 @@ public class RegisterViewModel extends ViewModel
             @Override
             public void onResponse(Call<LoginmModelz> call, Response<LoginmModelz> response) {
                 if(response.isSuccessful()){
+                    visibility();
                     loginList.postValue(response.body());
 
                     Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_LONG).show();
@@ -56,8 +59,10 @@ public class RegisterViewModel extends ViewModel
                                 context,
                                 jObjError.getString("user_msg"),
                                 Toast.LENGTH_LONG).show();
+                        visibility();
                     } catch (Exception e) {
                         Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                        visibility();
                     }
                 }
             }
@@ -65,11 +70,17 @@ public class RegisterViewModel extends ViewModel
             @Override
             public void onFailure(Call<LoginmModelz> call, Throwable t) {
                 Toast.makeText(context,t.getMessage(),Toast.LENGTH_LONG).show();
+                visibility();
 
             }
         });
 
 
+    }
+    public void visibility()
+    {
+        Register.regist.setVisibility(View.VISIBLE);
+        Register.registerprogress.setVisibility(View.INVISIBLE);
     }
 
 }

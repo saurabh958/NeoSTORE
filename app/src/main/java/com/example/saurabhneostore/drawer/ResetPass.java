@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,9 +24,10 @@ import com.example.saurabhneostore.viewmodel.ResetPassViewModel;
 public class ResetPass extends AppCompatActivity
 {
     EditText currentpass,newpass,confpass;
-    Button reset;
+    public static Button reset;
     ImageButton imageButton;
     ResetPassViewModel resetPassViewModel;
+    public static ProgressBar rstprogressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,8 @@ public class ResetPass extends AppCompatActivity
 
         reset=findViewById(R.id.resetpassbutton);
         imageButton=findViewById(R.id.rstpassbackbutton);
+        rstprogressBar=findViewById(R.id.reset_progress_bar);
+
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +62,7 @@ public class ResetPass extends AppCompatActivity
                 myedit.clear();
                 myedit.commit();
                 Intent intent=new Intent(ResetPass.this,Login.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 Toast.makeText(ResetPass.this,"Please Login Again",Toast.LENGTH_LONG).show();
                 startActivity(intent);
 
@@ -70,8 +75,9 @@ public class ResetPass extends AppCompatActivity
                 String curnt=currentpass.getText().toString();
                 String newp=newpass.getText().toString();
                 String confp=confpass.getText().toString();
-                if(currentpass.getText().toString().isEmpty()||newpass.getText().toString().isEmpty()||confpass.getText().toString().isEmpty()||
-                curnt.equals(newp)||!newp.equals(confp))
+                if(currentpass.getText().toString().isEmpty()||newpass.getText().toString().isEmpty()||
+                        confpass.getText().toString().isEmpty()|| newp.equals(curnt)||!newp.equals(confp)||
+                        newpass.getText().toString().length()>0 && newpass.getText().toString().length()<6)
                 {
                     if(curnt.isEmpty())
                     {
@@ -83,16 +89,30 @@ public class ResetPass extends AppCompatActivity
                     {
                         newpass.requestFocus();
                         newpass.setError("Please Enter New Password");
+                        return;
                     }
                     if(confp.isEmpty())
                     {
                         confpass.requestFocus();
                         confpass.setError("Please Enter Confirm Password");
+                        return;
                     }
                     if(newp.equals(curnt))
                     {
                         newpass.requestFocus();
-                        currentpass.setError("Password is same as old password");
+                        newpass.setError("Password is same as old password");
+                        return;
+                    }
+                    if(!newp.equals(confp))
+                    {
+                        confpass.requestFocus();
+                        confpass.setError("Confirm Password is not same as Password");
+                    }
+                    if(newpass.getText().toString().length()>0 && newpass.getText().toString().length()<6)
+                    {
+                        newpass.requestFocus();
+                        newpass.setError("Minimum Length of Password Should be 6");
+
                     }
                 }
                 else
@@ -104,7 +124,9 @@ public class ResetPass extends AppCompatActivity
                     SharedPreferences sp = getSharedPreferences(Login.PREFS_NAME,MODE_PRIVATE);
                     String token=sp.getString("Access","");
                     Log.d("resetpass",token);
+                    reset.setVisibility(View.GONE);
                     resetPassViewModel.EditPasswordApiCall(token,curnt1,newp1,confp1);
+                    rstprogressBar.setVisibility(View.VISIBLE);
                     Log.d("resetpass","api called");
 
 

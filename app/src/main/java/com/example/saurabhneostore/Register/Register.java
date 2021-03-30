@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -25,11 +26,12 @@ import com.example.saurabhneostore.viewmodel.RegisterViewModelFactory;
 public class Register extends AppCompatActivity
 {
     EditText name,lname,email,pass,cpass,mob;
-    Button regist;
+    public static Button regist;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     RadioGroup rgp1;
     RadioButton maler,femaler;
     TextView inv1;
+    public static ProgressBar registerprogress;
 
     String gendr;
     ImageButton imageButton;
@@ -68,6 +70,7 @@ public class Register extends AppCompatActivity
         maler=findViewById(R.id.male);
         femaler=findViewById(R.id.female);
         inv1=findViewById(R.id.inv);
+        registerprogress=findViewById(R.id.register_progress_bar);
 
         registerViewModel=new ViewModelProvider(this,new RegisterViewModelFactory(this)).get(RegisterViewModel.class);
         registerViewModel.getRegisterListObserver().observe(this, new Observer<LoginmModelz>() {
@@ -76,7 +79,9 @@ public class Register extends AppCompatActivity
                 if(loginmModelz!=null)
                 {
                     Intent intent=new Intent(Register.this, Login.class);
-                    startActivity(intent);
+                    setResult(2,intent);
+                    finish();
+                    //startActivity(intent);
                 }
             }
         });
@@ -119,7 +124,9 @@ public class Register extends AppCompatActivity
                         !name.getText().toString().matches("[a-zA-Z ]+")||
                         !lname.getText().toString().matches("[a-zA-Z ]+")||
                         mob.length()<10 || !email.getText().toString().matches(emailPattern) ||
-                        !cpass.getText().toString().matches(pass.getText().toString()))
+                        !cpass.getText().toString().matches(pass.getText().toString())||
+                        (cpass.getText().toString().length()>0 && cpass.getText().toString().length()<6)||
+                        (pass.getText().toString().length()>0 && pass.getText().toString().length()<6))
                 {
                     if(name.getText().toString().isEmpty())
                     {
@@ -189,11 +196,21 @@ public class Register extends AppCompatActivity
                         cpass.requestFocus();
                         cpass.setError("Enter Confirm Password");
                     }
-                    if(!cpass.getText().toString().matches(pass.getText().toString()))
-                    {
+                    if(pass.getText().toString().length()>0 && pass.getText().toString().length()<6){
+                        pass.requestFocus();
+                        pass.setError("Password Greater than 6 Digit");
+                    }
+                    if(cpass.getText().toString().length()>0 && cpass.getText().toString().length()<6){
+                        cpass.requestFocus();
+                        cpass.setError("Password Greater than 6 Digit");
+                    }
+
+                }
+                else if(!cpass.getText().toString().matches(pass.getText().toString()))
+                {
+
                         cpass.requestFocus();
                         cpass.setError("Please Enter Same Password as Above");
-                    }
                 }
                 else
                 {
@@ -213,7 +230,9 @@ public class Register extends AppCompatActivity
                         gendr=femaler.getText().toString().substring(0,1);
                     }
                     System.out.println("gender is"+gendr+"phn is"+phn);
+                    regist.setVisibility(View.INVISIBLE);
                     registerViewModel.makeregisterapicall(ed1,ed2,ed3,ed4,ed5,gendr,phn);
+                    registerprogress.setVisibility(View.VISIBLE);
 
 
 

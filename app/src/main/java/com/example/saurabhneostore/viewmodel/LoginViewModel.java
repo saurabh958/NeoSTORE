@@ -1,11 +1,13 @@
 package com.example.saurabhneostore.viewmodel;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.saurabhneostore.Login.Login;
 import com.example.saurabhneostore.model.LoginmModelz;
 import com.example.saurabhneostore.network.Apiservice;
 import com.example.saurabhneostore.network.RetroInstance;
@@ -42,9 +44,10 @@ public class LoginViewModel extends ViewModel
         Call<LoginmModelz> loginmModelzCall=apiservice.checkdata(emial,Pass);
         loginmModelzCall.enqueue(new Callback<LoginmModelz>() {
             @Override
-            public void onResponse(Call<LoginmModelz> call, Response<LoginmModelz> response) {
+             public void onResponse(Call<LoginmModelz> call, Response<LoginmModelz> response) {
                 if(response.isSuccessful())
                 {
+                    visibility();
                     loginList.postValue(response.body());
                     LoginmModelz postresponse=response.body();
 
@@ -62,9 +65,12 @@ public class LoginViewModel extends ViewModel
                     try {
                         JSONObject jObjError = new JSONObject(response.errorBody().string());
                         Toast.makeText(context, jObjError.getString("user_msg"),Toast.LENGTH_SHORT).show();
+                        visibility();
                     } catch (Exception e) {
 
                         Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        visibility();
+
                     }
                 }
             }
@@ -73,8 +79,15 @@ public class LoginViewModel extends ViewModel
             public void onFailure(Call<LoginmModelz> call, Throwable t) {
 
                 Toast.makeText(context, "Check Internet Connection", Toast.LENGTH_SHORT).show();
+                visibility();
+
             }
         });
     }
+public void visibility()
+{
+    Login.login.setVisibility(View.VISIBLE);
+    Login.login_progress.setVisibility(View.INVISIBLE);
+}
 
 }

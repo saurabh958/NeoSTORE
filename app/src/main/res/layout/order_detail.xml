@@ -41,6 +41,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/detail_tool"/>
+    <ProgressBar
+        android:id="@+id/orderdetail_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:visibility="invisible"
+        android:indeterminateTint="@color/prim"
+        android:layout_below="@id/detail_recycler"
+        android:layout_centerHorizontal="true"/>
 
     <TextView
         android:id="@+id/detail_total"

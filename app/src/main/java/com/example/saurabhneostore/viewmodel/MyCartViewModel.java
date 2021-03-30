@@ -2,11 +2,13 @@ package com.example.saurabhneostore.viewmodel;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.saurabhneostore.drawer.MyCart;
 import com.example.saurabhneostore.model.MyCart.MyCartModel;
 import com.example.saurabhneostore.network.Apiservice;
 import com.example.saurabhneostore.network.RetroInstance;
@@ -49,8 +51,10 @@ public class MyCartViewModel extends ViewModel {
                 {
                     Log.d("annu","6");
                     Log.d("annu","in on response if condition");
+                    MyCart.mycartprogress.setVisibility(View.GONE);
 
                     mycartlivedata.postValue(response.body());
+                    MyCart.order.setVisibility(View.VISIBLE);
 
                 }
                 else

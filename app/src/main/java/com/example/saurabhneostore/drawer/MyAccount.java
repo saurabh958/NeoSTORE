@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toolbar;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.saurabhneostore.Login.Login;
@@ -76,8 +77,7 @@ public class MyAccount extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(MyAccount.this,EditProfile.class);
-                startActivity(intent);
-                finish();
+                startActivityForResult(intent,2);
             }
         });
 
@@ -85,9 +85,12 @@ public class MyAccount extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(MyAccount.this,ResetPass.class);
+
                 startActivity(intent);
             }
         });
+
+
 
         
 
@@ -97,4 +100,33 @@ public class MyAccount extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==2)
+        {
+            SharedPreferences sp = getSharedPreferences(Login.PREFS_NAME,MODE_PRIVATE);
+            firstname.setText(sp.getString("FName",""));
+            firstname.setEnabled(false);
+
+            lastname.setText(sp.getString("LName",""));
+            lastname.setEnabled(false);
+
+            email.setText(sp.getString("Email",""));
+            email.setEnabled(false);
+
+            mob.setText(sp.getString("Phone",""));
+            mob.setEnabled(false);
+
+            dob.setText(sp.getString("Bday",""));
+            dob.setEnabled(false);
+
+            String image=sp.getString("Pic","");
+            Log.d("pintu","prefs - string image"+image);
+            Picasso.with(getApplicationContext())
+                    .load(image)
+                    .fit()
+                    .into(imageView);
+        }
+    }
 }

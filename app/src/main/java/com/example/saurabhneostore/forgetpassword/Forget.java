@@ -8,6 +8,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -22,11 +23,12 @@ import com.example.saurabhneostore.viewmodel.ForgetViewModelFactory;
 public class Forget extends AppCompatActivity
 {
     EditText ed1;
-    Button submit;
+    public static Button submit;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     ImageButton imageButton;
     ForgetViewModel forgetViewModel;
     String emaildata;
+    public static ProgressBar progressBar;
 
 
     @Override
@@ -37,22 +39,9 @@ public class Forget extends AppCompatActivity
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.forgetpass);
 
-
-//        Toolbar toolbar=findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setTitle("Forget Password");
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-//        imageButton=findViewById(R.id.backbutton);
-//        imageButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Forget.super.onBackPressed();
-//            }
-//        });
-
         ed1=findViewById(R.id.emailid);
         submit=findViewById(R.id.Submit);
+        progressBar=findViewById(R.id.forget_progress_bar);
 
 
         forgetViewModel = new ViewModelProvider(this, new ForgetViewModelFactory(this)).get(ForgetViewModel.class);
@@ -63,7 +52,9 @@ public class Forget extends AppCompatActivity
                 {
 
                     Intent intent=new Intent(Forget.this, Login.class);
-                    startActivity(intent);
+                    setResult(2,intent);
+                    // startActivity(intent);
+                    finish();
                 }
             }
         });
@@ -87,7 +78,10 @@ public class Forget extends AppCompatActivity
                 }
                 else
                 {
+
+                    submit.setVisibility(View.INVISIBLE);
                     forgetViewModel.forgetapicall(emaildata);
+                    progressBar.setVisibility(View.VISIBLE);
 
                 }
             }

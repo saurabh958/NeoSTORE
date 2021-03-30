@@ -7,4 +7,14 @@
     android:elevation="4dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="NeoSTORE"
+        android:gravity="center"
+        android:layout_marginRight="50dp"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="20sp"/>
+
 </androidx.appcompat.widget.Toolbar>

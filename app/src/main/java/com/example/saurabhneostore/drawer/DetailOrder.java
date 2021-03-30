@@ -3,6 +3,8 @@ package com.example.saurabhneostore.drawer;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -30,6 +32,7 @@ public class DetailOrder extends AppCompatActivity
     public static SharedPreferences sp;
     String s1;
     List<OrderDetail>orderDetailList;
+    public static ProgressBar progressBar;
 
 
 
@@ -44,6 +47,7 @@ public class DetailOrder extends AppCompatActivity
         cost=findViewById(R.id.detail_price);
         recyclerView=findViewById(R.id.detail_recycler);
         detailtitle=findViewById(R.id.detail_title);
+        progressBar=findViewById(R.id.orderdetail_progress_bar);
 
 
 
@@ -74,7 +78,7 @@ public class DetailOrder extends AppCompatActivity
 
         });
 
-
+progressBar.setVisibility(View.VISIBLE);
         detailOrderViewModel.loaddetailorder(token,s1);
 
 

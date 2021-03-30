@@ -1,11 +1,13 @@
 package com.example.saurabhneostore.viewmodel;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.saurabhneostore.forgetpassword.Forget;
 import com.example.saurabhneostore.model.LoginmModelz;
 import com.example.saurabhneostore.network.Apiservice;
 import com.example.saurabhneostore.network.RetroInstance;
@@ -45,8 +47,11 @@ public class ForgetViewModel extends ViewModel
             {
                 if(response.isSuccessful())
                 {
+                    visibility();
+
                     loginList.postValue(response.body());
                     Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_LONG).show();
+
                 }
                 else
                 {
@@ -56,9 +61,11 @@ public class ForgetViewModel extends ViewModel
                                 context,
                                 jObjError.getString("user_msg"),
                                 Toast.LENGTH_SHORT).show();
+                        visibility();
                     } catch (Exception e) {
 
                         Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        visibility();
                     }
                 }
 
@@ -68,11 +75,16 @@ public class ForgetViewModel extends ViewModel
             @Override
             public void onFailure(Call<LoginmModelz> call, Throwable t) {
                 Toast.makeText(context, "Check Internet Connection", Toast.LENGTH_SHORT).show();
+                visibility();
 
             }
         });
     }
-
+    public void visibility()
+    {
+        Forget.submit.setVisibility(View.VISIBLE);
+        Forget.progressBar.setVisibility(View.INVISIBLE);
+    }
 
 
 }

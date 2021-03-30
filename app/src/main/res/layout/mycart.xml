@@ -48,6 +48,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+
+
         <LinearLayout
             android:id="@+id/empty_layout"
             android:layout_width="match_parent"
@@ -78,6 +80,15 @@
         android:layout_below="@id/empty_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+        <ProgressBar
+            android:id="@+id/mycart_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:visibility="invisible"
+            android:indeterminateTint="@color/prim"
+            android:layout_below="@id/mycart_recycler"
+            android:layout_centerHorizontal="true"/>
 
     <View
         android:id="@+id/verticalline"
@@ -85,6 +96,8 @@
         android:layout_height="1dp"
         android:background="#EDEDED"
         android:layout_below="@id/mycart_recycler"/>
+
+
 
     <TextView
         android:id="@+id/mycart_total"
@@ -103,7 +116,7 @@
         android:id="@+id/mycart_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="₹ 180.00"
+        android:text="₹ 00.00"
 
         android:layout_below="@id/verticalline"
         android:textSize="17sp"

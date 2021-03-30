@@ -15,6 +15,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.saurabhneostore.Login.Login;
@@ -25,6 +27,9 @@ import com.example.saurabhneostore.drawer.MyCart;
 import com.example.saurabhneostore.drawer.MyOrder;
 import com.example.saurabhneostore.drawer.StoreLocator;
 import com.example.saurabhneostore.drawer.TableList;
+import com.example.saurabhneostore.model.FetchAccount.Data;
+import com.example.saurabhneostore.viewmodel.FetchViewModel;
+import com.example.saurabhneostore.viewmodel.HomePageViewModelFactory;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.squareup.picasso.Picasso;
@@ -39,10 +44,14 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
     NavigationView navigationView;
     Toolbar toolbar;
     CircleImageView circleImageView;
-    TextView tv1,tv2;
+    TextView tv1,tv2,notification;
     ViewPager mviewpager;
     TabLayout tabLayout;
     CardView tablecard;
+    FetchViewModel fetchVM;
+    SharedPreferences.Editor editor;
+    String token;
+
 
 
     int[] images={R.drawable.sliderimage1,R.drawable.sliderimage2,R.drawable.imageslider3,R.drawable.sliderimage4};
@@ -73,6 +82,9 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
         tv2=headerContainer.findViewById(R.id.currentemail);
         circleImageView=headerContainer.findViewById(R.id.image1);
 
+        SharedPreferences sp = getSharedPreferences(Login.PREFS_NAME,MODE_PRIVATE);
+
+
         setSupportActionBar(toolbar);
 
         navigationView.bringToFront();
@@ -85,12 +97,8 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
 
         navigationView.setNavigationItemSelectedListener(this);
 
-//        MyData myData=Appconstant.mydatas.get(0);
-//        String s1=myData.fnames+" "+myData.lnames;
-//        String s2=myData.emailids;
-//        tv1.setText(s1);
-//        tv2.setText(s2);
-        SharedPreferences sp = getSharedPreferences(Login.PREFS_NAME,MODE_PRIVATE);
+        notification = (TextView) navigationView.getMenu().findItem(R.id.mycart).getActionView();
+
         tv1.setText(sp.getString("FName","")+" "+sp.getString("LName",""));
         tv2.setText(sp.getString("Email",""));
 
@@ -100,6 +108,41 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
                 .load(imagehome)
                 .fit()
                 .into(circleImageView);
+        token=sp.getString("Access","");
+
+
+
+         fetchVM= new ViewModelProvider(this, new HomePageViewModelFactory(this)).get(FetchViewModel.class);
+        fetchVM.getFetchlivedata().observe(this, new Observer<Data>() {
+            @Override
+            public void onChanged(Data data) {
+                if(data != null){
+                    Log.d("saurabh","succes home");
+
+                    editor = sp.edit();
+                    editor.putString("cart", data.getTotalCarts().toString());
+                    editor.commit();
+                    String quantity = sp.getString("cart","");
+
+                    if(quantity.equals("0")){
+                        notification.setVisibility(View.GONE);
+                    }else{
+                        notification.setVisibility(View.VISIBLE);
+                        notification.setText(quantity);
+                    }
+                }
+            }
+        });
+        fetchVM.FetchDetail(token);
+
+
+//        MyData myData=Appconstant.mydatas.get(0);
+//        String s1=myData.fnames+" "+myData.lnames;
+//        String s2=myData.emailids;
+//        tv1.setText(s1);
+//        tv2.setText(s2);
+
+
 
 
         mviewpager= findViewById(R.id.viewpagerm);
@@ -209,5 +252,6 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
                 .load(imagehome)
                 .fit()
                 .into(circleImageView);
+        fetchVM.FetchDetail(token);
     }
 }

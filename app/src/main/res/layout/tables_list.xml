@@ -28,7 +28,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:id="@+id/backbutton"
+            android:id="@+id/tablebackbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/back"
@@ -57,13 +57,12 @@
         android:scrollbars="vertical"/>
 
     <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:visibility="visible"
-        android:indeterminateTint="@color/prim"
-        />
+    android:id="@+id/progress_bar"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:visibility="visible"
+    android:indeterminateTint="@color/prim" />
 
 </LinearLayout>
 </androidx.core.widget.NestedScrollView>
