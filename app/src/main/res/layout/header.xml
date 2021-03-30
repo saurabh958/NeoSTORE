@@ -8,15 +8,31 @@
     android:gravity="bottom|center"
     android:padding="20dp">
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:layout_gravity="center">
     <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="95dp"
-        android:layout_height="95dp"
-        android:src="@drawable/imageicon"
+        android:layout_width="105dp"
+        android:layout_height="105dp"
+        android:src="@drawable/round_circle"
         android:id="@+id/image1"
         app:civ_border_width="2dp"
         app:civ_border_color="@color/white">
-
     </de.hdodenhof.circleimageview.CircleImageView>
+
+     <TextView
+            android:id="@+id/header_initial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SV"
+            android:visibility="invisible"
+            android:textSize="60sp"
+            android:textColor="@color/white"
+            android:layout_centerInParent="true">
+        </TextView>
+    </RelativeLayout>
 
 <!--    <ImageView-->
 <!--        android:layout_width="95dp"-->

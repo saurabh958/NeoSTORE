@@ -9,7 +9,7 @@
     android:backgroundTint="#e91c1a"
     android:gravity="center"
     android:padding="4dp"
-    android:text="ddf"
+    android:text=""
     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
     android:textColor="@color/white"
     android:textSize="15sp" />

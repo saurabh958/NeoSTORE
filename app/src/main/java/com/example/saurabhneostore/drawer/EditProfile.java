@@ -15,6 +15,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -49,6 +50,7 @@ public class EditProfile extends AppCompatActivity
     DatePickerDialog datePickerDialog;
     public static final String PREFS_NAME = "MySharedPref";
     public static ProgressBar progressBar;
+    TextView nameiniti;
 
 
     @Override
@@ -65,6 +67,7 @@ public class EditProfile extends AppCompatActivity
         img1=findViewById(R.id.editprofileimage);
         submit=findViewById(R.id.editprofileeditprofilebtn);
         progressBar=findViewById(R.id.editprofile_progress_bar);
+        nameiniti=findViewById(R.id.edit_initial);
 
         imageButton=findViewById(R.id.editprofilebackbutton);
         imageButton.setOnClickListener(new View.OnClickListener() {
@@ -123,6 +126,18 @@ public class EditProfile extends AppCompatActivity
                     .load(image1)
                     .fit()
                     .into(img1);
+
+        }
+        else
+        {
+            nameiniti.setVisibility(View.VISIBLE);
+            String fini=(sp.getString("FName","")).toUpperCase();
+            String lini=(sp.getString("LName","")).toUpperCase();
+            String initials=fini.substring(0,1)+lini.substring(0,1);
+
+            nameiniti.setText(initials);
+
+
 
         }
 
@@ -261,16 +276,19 @@ public class EditProfile extends AppCompatActivity
                     Log.d("editprofile",token);
                     Log.d("annu",bitprofile);
 
-                    if(bitprofile.equals(null))
+                    if(bitprofile.equals(""))
                     {
                         bitprofile="";
                         submit.setVisibility(View.GONE);
+                        Log.d("annu","if null");
                         editProfileViewModel.editApiCall(token,Fname,Lname,Email,Dob,bitprofile,Phone);
                         progressBar.setVisibility(View.VISIBLE);
                     }
                     else
                     {
                         submit.setVisibility(View.GONE);
+                        Log.d("annu","else null");
+                        Log.d("annu","bitdata is :-> "+bitprofile);
                         editProfileViewModel.editApiCall(token,Fname,Lname,Email,Dob,bitprofile,Phone);
                         progressBar.setVisibility(View.VISIBLE);
                     }

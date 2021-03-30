@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toolbar;
 
 import androidx.annotation.Nullable;
@@ -25,6 +26,7 @@ public class MyAccount extends AppCompatActivity {
     Button editbtn,reset;
     CircleImageView imageView;
     ImageButton backbutton;
+    TextView initial;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,7 @@ public class MyAccount extends AppCompatActivity {
         email=findViewById(R.id.myaccntemail);
         mob=findViewById(R.id.myaccntphonenumber);
         dob=findViewById(R.id.myaccntdob);
+        initial=findViewById(R.id.myaccnt_initial);
 
         editbtn=findViewById(R.id.myaccnteditprofilebtn);
         reset=findViewById(R.id.rstpasswrdbutton);
@@ -68,10 +71,24 @@ public class MyAccount extends AppCompatActivity {
 
         String image=sp.getString("Pic","");
         Log.d("pintu","prefs - string image"+image);
-        Picasso.with(getApplicationContext())
-                .load(image)
-                .fit()
-                .into(imageView);
+        if(!image.equals("null"))
+        {
+            Picasso.with(getApplicationContext())
+                    .load(image)
+                    .fit()
+                    .into(imageView);
+        }
+        else
+        {
+            initial.setVisibility(View.VISIBLE);
+            String fini=(sp.getString("FName","")).toUpperCase();
+            String lini=(sp.getString("LName","")).toUpperCase();
+            String initials=fini.substring(0,1)+lini.substring(0,1);
+
+            initial.setText(initials);
+        }
+
+
 
         editbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,10 +140,23 @@ public class MyAccount extends AppCompatActivity {
 
             String image=sp.getString("Pic","");
             Log.d("pintu","prefs - string image"+image);
-            Picasso.with(getApplicationContext())
-                    .load(image)
-                    .fit()
-                    .into(imageView);
+            if(!image.equals("null"))
+            {
+                Picasso.with(getApplicationContext())
+                        .load(image)
+                        .fit()
+                        .into(imageView);
+            }
+            else
+            {
+                initial.setVisibility(View.VISIBLE);
+                String fini=(sp.getString("FName","")).toUpperCase();
+                String lini=(sp.getString("LName","")).toUpperCase();
+                String initials=fini.substring(0,1)+lini.substring(0,1);
+
+                initial.setText(initials);
+            }
+
         }
     }
 }

@@ -44,7 +44,7 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
     NavigationView navigationView;
     Toolbar toolbar;
     CircleImageView circleImageView;
-    TextView tv1,tv2,notification;
+    TextView tv1,tv2,notification,initial;
     ViewPager mviewpager;
     TabLayout tabLayout;
     CardView tablecard;
@@ -81,6 +81,7 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
         tv1=headerContainer.findViewById(R.id.currentname);
         tv2=headerContainer.findViewById(R.id.currentemail);
         circleImageView=headerContainer.findViewById(R.id.image1);
+        initial=headerContainer.findViewById(R.id.header_initial);
 
         SharedPreferences sp = getSharedPreferences(Login.PREFS_NAME,MODE_PRIVATE);
 
@@ -104,10 +105,23 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
 
         String imagehome=sp.getString("Pic","");
         Log.d("pintu","prefs - string image"+imagehome);
-        Picasso.with(getApplicationContext())
-                .load(imagehome)
-                .fit()
-                .into(circleImageView);
+        if(!imagehome.equals("null"))
+        {
+            Picasso.with(getApplicationContext())
+                    .load(imagehome)
+                    .fit()
+                    .into(circleImageView);
+        }
+        else
+        {
+            initial.setVisibility(View.VISIBLE);
+            String fini=(sp.getString("FName","")).toUpperCase();
+            String lini=(sp.getString("LName","")).toUpperCase();
+            String initials=fini.substring(0,1)+lini.substring(0,1);
+
+            initial.setText(initials);
+        }
+
         token=sp.getString("Access","");
 
 
@@ -248,10 +262,23 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
 
         String imagehome=sp.getString("Pic","");
         Log.d("pintu","prefs - string image"+imagehome);
-        Picasso.with(getApplicationContext())
-                .load(imagehome)
-                .fit()
-                .into(circleImageView);
+        if(!imagehome.equals("null"))
+        {
+            Picasso.with(getApplicationContext())
+                    .load(imagehome)
+                    .fit()
+                    .into(circleImageView);
+        }
+        else
+        {
+            initial.setVisibility(View.VISIBLE);
+            String fini=(sp.getString("FName","")).toUpperCase();
+            String lini=(sp.getString("LName","")).toUpperCase();
+            String initials=fini.substring(0,1)+lini.substring(0,1);
+
+            initial.setText(initials);
+        }
+
         fetchVM.FetchDetail(token);
     }
 }

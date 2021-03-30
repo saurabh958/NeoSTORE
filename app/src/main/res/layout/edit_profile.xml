@@ -41,16 +41,33 @@
         </TextView>
     </androidx.appcompat.widget.Toolbar>
 
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:layout_gravity="center">
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/editprofileimage"
         android:layout_width="152dp"
         android:layout_height="152dp"
-        android:src="@drawable/imageicon"
+        android:src="@drawable/round_circle"
         android:layout_gravity="center"
-        android:clickable="true"
-        android:layout_marginTop="22dp">
-
+        android:clickable="true">
     </de.hdodenhof.circleimageview.CircleImageView>
+
+    <TextView
+        android:id="@+id/edit_initial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SV"
+        android:visibility="invisible"
+        android:textSize="60sp"
+        android:textColor="@color/white"
+        android:layout_centerInParent="true">
+
+    </TextView>
+    </RelativeLayout>
 
     <EditText
         android:id="@+id/editprofilefirstname"
