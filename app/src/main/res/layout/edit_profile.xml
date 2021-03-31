@@ -148,6 +148,7 @@
         android:background="@drawable/registeredittext"
         android:drawableLeft="@drawable/cake"
         android:ems="10"
+        android:focusable="false"
         android:textColor="@color/white"
         android:hint="Date of Birth"
         android:drawablePadding="5dp"

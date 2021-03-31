@@ -3,12 +3,17 @@ package com.example.saurabhneostore.drawer;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -33,6 +38,8 @@ public class MyOrder extends AppCompatActivity
     public static SharedPreferences sp;
     List<Datum>myorderlist;
     public static ProgressBar progressBar;
+    Toolbar toolbar;
+    ImageButton imageButton;
 
 
 
@@ -47,6 +54,16 @@ public class MyOrder extends AppCompatActivity
 
         recyclerView=findViewById(R.id.myorder_recycler);
         progressBar=findViewById(R.id.myorder_progress_bar);
+        imageButton=findViewById(R.id.myorder_backbutton);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyOrder.super.onBackPressed();
+            }
+        });
+
+        toolbar=findViewById(R.id.myorder_tool);
+        setSupportActionBar(toolbar);
 
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -84,5 +101,27 @@ public class MyOrder extends AppCompatActivity
 
 
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.table_menu,menu);
+        MenuItem item=menu.findItem(R.id.search_menu);
+        androidx.appcompat.widget.SearchView searchView=(androidx.appcompat.widget.SearchView)item.getActionView();
+        //SearchView searchView=(SearchView)item.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
     }
 }

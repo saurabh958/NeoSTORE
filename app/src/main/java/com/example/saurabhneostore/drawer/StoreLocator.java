@@ -2,6 +2,8 @@ package com.example.saurabhneostore.drawer;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +31,7 @@ public class StoreLocator extends AppCompatActivity implements OnMapReadyCallbac
     StoreLocatorAdapter storeLocatorAdapter;
     private GoogleMap mMap;
     LatLng mumbai;
+    ImageButton backbutton;
 
 
     @Override
@@ -36,6 +39,13 @@ public class StoreLocator extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.store_locator);
         recyclerView = findViewById(R.id.store_recycler);
+        backbutton=findViewById(R.id.store_backbutton);
+        backbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StoreLocator.super.onBackPressed();
+            }
+        });
 
         String jsonFileString = Utils.getJsonFromAssets(getApplicationContext(), "location.json");
         Log.i("data", jsonFileString);

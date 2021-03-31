@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -33,6 +34,7 @@ public class DetailOrder extends AppCompatActivity
     String s1;
     List<OrderDetail>orderDetailList;
     public static ProgressBar progressBar;
+    ImageButton backbutton;
 
 
 
@@ -48,6 +50,13 @@ public class DetailOrder extends AppCompatActivity
         recyclerView=findViewById(R.id.detail_recycler);
         detailtitle=findViewById(R.id.detail_title);
         progressBar=findViewById(R.id.orderdetail_progress_bar);
+        backbutton=findViewById(R.id.detail_backbutton);
+        backbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DetailOrder.super.onBackPressed();
+            }
+        });
 
 
 

@@ -111,6 +111,7 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
                     .load(imagehome)
                     .fit()
                     .into(circleImageView);
+            initial.setVisibility(View.INVISIBLE);
         }
         else
         {
@@ -268,6 +269,7 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
                     .load(imagehome)
                     .fit()
                     .into(circleImageView);
+            initial.setVisibility(View.INVISIBLE);
         }
         else
         {

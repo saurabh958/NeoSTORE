@@ -77,6 +77,7 @@ public class MyAccount extends AppCompatActivity {
                     .load(image)
                     .fit()
                     .into(imageView);
+            initial.setVisibility(View.INVISIBLE);
         }
         else
         {
@@ -146,6 +147,8 @@ public class MyAccount extends AppCompatActivity {
                         .load(image)
                         .fit()
                         .into(imageView);
+                initial.setVisibility(View.INVISIBLE);
+
             }
             else
             {

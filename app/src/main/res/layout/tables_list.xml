@@ -1,23 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/nestedscroll"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".drawer.TableList">
 
 
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/registertool"
+        android:id="@+id/tabletool"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/prim"
@@ -31,38 +23,58 @@
             android:id="@+id/tablebackbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/back"
             android:layout_marginLeft="5dp"
-            android:background="#00000000"/>
+            android:background="#00000000"
+            android:src="@drawable/back" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Tables"
-            android:gravity="center"
-            android:layout_marginRight="50dp"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="20sp">
-
         </TextView>
+
+<!--        <androidx.appcompat.widget.SearchView-->
+<!--            android:layout_width="100dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="60dp"-->
+<!--            app:iconifiedByDefault="true"-->
+<!--            app:queryBackground="@color/white"-->
+<!--            app:searchIcon="@drawable/search">-->
+
+<!--        </androidx.appcompat.widget.SearchView>-->
     </androidx.appcompat.widget.Toolbar>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <androidx.core.widget.NestedScrollView
+
+        android:id="@+id/nestedscroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/tablerecycler"
-        android:nestedScrollingEnabled="true"
-        tools:listitem="@layout/table_row"
-        android:scrollbars="vertical"/>
+        android:layout_height="match_parent">
 
-    <ProgressBar
-    android:id="@+id/progress_bar"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center_horizontal"
-    android:visibility="visible"
-    android:indeterminateTint="@color/prim" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tablerecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:nestedScrollingEnabled="true"
+                android:scrollbars="vertical"
+                tools:listitem="@layout/table_row" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:indeterminateTint="@color/prim"
+                android:visibility="visible" />
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>
-</androidx.core.widget.NestedScrollView>

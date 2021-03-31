@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -18,19 +20,25 @@ import com.example.saurabhneostore.drawer.ProductDetail;
 import com.example.saurabhneostore.model.Datum;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class TableListAdapter extends RecyclerView.Adapter<TableListAdapter.TableViewHolder>
+public class TableListAdapter extends RecyclerView.Adapter<TableListAdapter.TableViewHolder> implements Filterable
 {
+    private Context context;
+    private List<Datum>itemsList;
+    private List<Datum>backup;
+
 
 
     public TableListAdapter(Context context, List<Datum> itemsList) {
         this.context = context;
         this.itemsList = itemsList;
+        backup=new ArrayList<>(itemsList);
+
     }
 
-    private Context context;
-    private List<Datum>itemsList;
+
 
     public void setItemsList(List<Datum> itemsList)
     {
@@ -87,6 +95,48 @@ public class TableListAdapter extends RecyclerView.Adapter<TableListAdapter.Tabl
         }
         return 0;
     }
+
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    Filter filter=new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence keyword)
+        {
+            ArrayList<Datum>filterdata=new ArrayList<>();
+            if(keyword.toString().isEmpty())
+            {
+                filterdata.addAll(backup);
+            }
+            else
+            {
+                for(Datum obj:backup)
+                {
+                    if(obj.getName().toString().toLowerCase().contains(keyword.toString().toLowerCase()))
+                    {
+                        filterdata.add(obj);
+
+                    }
+                }
+            }
+
+            FilterResults results=new FilterResults();
+            results.values=filterdata;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results)
+        {
+            itemsList.clear();
+            itemsList.addAll((ArrayList<Datum>)results.values);
+            notifyDataSetChanged();
+
+
+        }
+    };
 
     public class TableViewHolder extends RecyclerView.ViewHolder
     {

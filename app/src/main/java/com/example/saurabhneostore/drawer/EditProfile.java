@@ -104,6 +104,7 @@ public class EditProfile extends AppCompatActivity
                         Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(i, RESULT_LOAD_IMAGE);
+
             }
         });
 
@@ -126,6 +127,7 @@ public class EditProfile extends AppCompatActivity
                     .load(image1)
                     .fit()
                     .into(img1);
+            nameiniti.setVisibility(View.INVISIBLE);
 
         }
         else
@@ -286,6 +288,7 @@ public class EditProfile extends AppCompatActivity
                     }
                     else
                     {
+
                         submit.setVisibility(View.GONE);
                         Log.d("annu","else null");
                         Log.d("annu","bitdata is :-> "+bitprofile);
@@ -324,6 +327,7 @@ public class EditProfile extends AppCompatActivity
             byte[] imgByte = byteArrayOutputStream.toByteArray();
             bitprofile = Base64.encodeToString(imgByte, Base64.DEFAULT);
             bitprofile = "data:image/jpg;base64," + bitprofile;
+            nameiniti.setVisibility(View.INVISIBLE);
         }
     }
 

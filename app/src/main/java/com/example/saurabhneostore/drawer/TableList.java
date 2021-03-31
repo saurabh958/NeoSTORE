@@ -4,11 +4,15 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -35,6 +39,7 @@ public class TableList extends AppCompatActivity {
     TableViewModel tableViewModel;
     public static ProgressBar progressBar;
     ArrayList<Datum> list1=new ArrayList<>();
+    Toolbar toolbar;
 
 
 
@@ -45,6 +50,8 @@ public class TableList extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tables_list);
+        toolbar=findViewById(R.id.tabletool);
+        setSupportActionBar(toolbar);
         nestedScrollView=findViewById(R.id.nestedscroll);
         imageButton=findViewById(R.id.tablebackbutton);
         imageButton.setOnClickListener(new View.OnClickListener() {
@@ -135,5 +142,28 @@ public class TableList extends AppCompatActivity {
 
     }
 
-//
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.table_menu,menu);
+        MenuItem item=menu.findItem(R.id.search_menu);
+        androidx.appcompat.widget.SearchView searchView=(androidx.appcompat.widget.SearchView)item.getActionView();
+        //SearchView searchView=(SearchView)item.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                tableListAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
+    }
+    //
 }
+
+

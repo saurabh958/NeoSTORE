@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,16 +16,19 @@ import com.example.saurabhneostore.R;
 import com.example.saurabhneostore.drawer.DetailOrder;
 import com.example.saurabhneostore.model.myordermodel.Datum;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.MyOrderviewholder> {
 
     private Context context;
     private List<Datum>orderlist;
+    private List<Datum>backup;
 
     public MyOrderAdapter(Context context, List<Datum> orderlist) {
         this.context = context;
         this.orderlist = orderlist;
+        backup=new ArrayList<>(orderlist);
     }
 
     @NonNull
@@ -65,6 +69,46 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.MyOrderv
         }
         return 0;
     }
+
+    public Filter getFilter()
+    {
+        return filter;
+    }
+
+
+    Filter filter=new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence keyword) {
+            ArrayList<Datum>filterdata=new ArrayList<>();
+            if(keyword.toString().isEmpty())
+            {
+                filterdata.addAll(backup);
+            }
+            else
+            {
+                for(Datum obj:backup)
+                {
+                    if(obj.getId().toString().toLowerCase().contains(keyword.toString().toLowerCase()))
+                    {
+                        filterdata.add(obj);
+                    }
+                }
+            }
+
+            FilterResults results=new FilterResults();
+            results.values=filterdata;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results)
+        {
+            orderlist.clear();
+            orderlist.addAll((ArrayList<Datum>)results.values);
+            notifyDataSetChanged();
+
+        }
+    };
 
     public class MyOrderviewholder extends RecyclerView.ViewHolder
     {
