@@ -124,7 +124,6 @@ public class Register extends AppCompatActivity
                         !name.getText().toString().matches("[a-zA-Z ]+")||
                         !lname.getText().toString().matches("[a-zA-Z ]+")||
                         mob.length()<10 || !email.getText().toString().matches(emailPattern) ||
-                        !cpass.getText().toString().matches(pass.getText().toString())||
                         (cpass.getText().toString().length()>0 && cpass.getText().toString().length()<6)||
                         (pass.getText().toString().length()>0 && pass.getText().toString().length()<6))
                 {

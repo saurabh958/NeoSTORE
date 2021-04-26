@@ -8,39 +8,7 @@
     android:background="#fe3f3f"
     tools:context=".forgetpassword.Forget">
 
-<!--    <include-->
-<!--        android:id="@+id/toolbar"-->
-<!--        layout="@layout/toolbar" />-->
-<!--    <androidx.appcompat.widget.Toolbar-->
-<!--        android:id="@+id/registertool"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="@color/prim"-->
-<!--        android:gravity="center"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="1.0"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent">-->
 
-<!--        <ImageButton-->
-<!--            android:id="@+id/backbutton"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:src="@drawable/back"-->
-<!--            android:layout_marginLeft="5dp"-->
-<!--            android:background="#00000000"/>-->
-
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginLeft="100dp"-->
-<!--            android:text="Register"-->
-<!--            android:textAlignment="center"-->
-<!--            android:textColor="@color/white"-->
-<!--            android:textSize="20sp">-->
-
-<!--        </TextView>-->
-<!--    </androidx.appcompat.widget.Toolbar>-->
 
 
     <TextView
